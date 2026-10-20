@@ -60,3 +60,33 @@
     });
   }, { passive: true });
 })();
+
+/* Hero arka planı: Ken Burns'ü görünmezken durdur + masaüstünde fare derinliği.
+   ⚠️ Yalnız .hero-fon-kat'a --px/--py yazar; img'deki CSS animasyonuna DOKUNMAZ. */
+(function () {
+  "use strict";
+  var hero = document.getElementById("heroKb");
+  if (!hero || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  var gorunur = true;
+  function esitle() { hero.classList.toggle("is-paused", !(gorunur && !document.hidden)); }
+  if ("IntersectionObserver" in window)
+    new IntersectionObserver(function (g) { gorunur = g[0].isIntersecting; esitle(); }).observe(hero);
+  document.addEventListener("visibilitychange", esitle);
+
+  if (!matchMedia("(hover:hover) and (min-width:1001px)").matches) return;
+  var kat = hero.querySelector(".hero-fon-kat"), raf = null, x = 0, y = 0;
+  if (!kat) return;
+  hero.addEventListener("pointermove", function (o) {
+    var r = hero.getBoundingClientRect();
+    x = (o.clientX - r.left) / r.width - 0.5;
+    y = (o.clientY - r.top) / r.height - 0.5;
+    if (!raf) raf = requestAnimationFrame(function () {
+      kat.style.setProperty("--px", (-x * 18).toFixed(1) + "px");
+      kat.style.setProperty("--py", (-y * 12).toFixed(1) + "px");
+      raf = null;
+    });
+  }, { passive: true });
+  hero.addEventListener("pointerleave", function () {
+    kat.style.setProperty("--px", "0px"); kat.style.setProperty("--py", "0px");
+  });
+})();

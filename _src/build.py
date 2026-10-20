@@ -87,8 +87,8 @@ def ikon(ad, boy=36):
     return svg(IKON[ad], boy)
 
 # ── Görseller ───────────────────────────────────────────────────────────────
-GENISLIKLER = (500, 900, 1200, 1600)
-def gorsel(taban, alt, boy="100vw", oncelik=False):
+GENISLIKLER = (500, 900, 1200, 1600, 1920)
+def gorsel(taban, alt, boy="100vw", oncelik=False, sinif=""):
     """_src/media.py türevlerinden srcset'li <picture>. Türev yoksa BOŞ döner."""
     kaynak = [(g, f"/images/w{g}/{taban}.webp") for g in GENISLIKLER
               if os.path.exists(os.path.join(KOK, "images", f"w{g}", taban + ".webp"))]
@@ -99,7 +99,8 @@ def gorsel(taban, alt, boy="100vw", oncelik=False):
         w, h = im.size
     yukle = ' loading="eager" fetchpriority="high"' if oncelik else ' loading="lazy" decoding="async"'
     yedek = next((y for g, y in kaynak if g == 900), kaynak[-1][1])
-    return (f'<picture><img src="{yedek}" srcset="{", ".join(f"{y} {g}w" for g, y in kaynak)}" '
+    sn = f' class="{sinif}"' if sinif else ""
+    return (f'<picture><img{sn} src="{yedek}" srcset="{", ".join(f"{y} {g}w" for g, y in kaynak)}" '
             f'sizes="{boy}" alt="{e(alt)}" width="{w}" height="{h}"{yukle}></picture>')
 
 # ⚠️ Alt metin görselin GÖSTERDİĞİNİ anlatır (dosya adını değil); anahtar kelime doldurma yok.
@@ -111,11 +112,27 @@ TANITIM_ALT = ("Arslankaya İnşaat tanıtım görseli: gün batımında taş ve
                "iki katlı villa, önde proje çizimleri üzerinde turuncu baret; konut inşaatları, "
                "taahhüt işleri, tadilat ve ticari projeler ikonları ile iletişim bilgileri")
 
+HERO_FON_ALT = ("Gün batımında turuncu ve mor bulutların önünde kule vinçli, yapımı süren "
+                "yüksek katlı bina ve çevresindeki şehir silüeti")
+
+def hero_fon():
+    """Ana sayfa hero arka planı — kullanıcının 2026-10-20 fotoğrafı, "drone gibi yavaş ilerlesin".
+    Web4Medya hero'sunun deseni:
+    ⚠️ Katman ayrımı: .hero-fon-kat = JS fare derinliği, img = CSS Ken Burns. Aynı elemana ikisini
+       VERME — inline transform animasyonu ezer ([[reference_reveal_transform_bug]]).
+    ⛔ backdrop-filter KULLANMA: hareketli görselin üstünde her karede yeniden bulanıklaştırır.
+    Ekran dışı / gizli sekme / reduced-motion'da durur (.is-paused, app.js)."""
+    # Mobilde hero dikey uzun → fotoğraf yüksekliğe göre büyür; 100vw bulanık türev seçtiriyordu
+    g = gorsel("arslankaya-insaat-hero", HERO_FON_ALT, boy="(max-width:1000px) 150vw, 100vw",
+               oncelik=True, sinif="kb")
+    return (f'<div class="hero-fon-kat" aria-hidden="true">{g}</div>'
+            f'<div class="hero-fon-perde" aria-hidden="true"></div>') if g else ""
+
 def hero_gorsel():
     """Ana sayfa hero'sunun sağ sütunu — kullanıcının 2026-10-20 genel tanıtım görseli.
     ⚠️ LCP adayı: eager + fetchpriority=high, KIRPMA YOK (görselde yazı + telefon var)."""
     g = gorsel("arslankaya-insaat", TANITIM_ALT,
-               boy="(min-width:1000px) 560px, calc(100vw - 32px)", oncelik=True)
+               boy="(min-width:1000px) 560px, calc(100vw - 32px)")
     return f'<a class="hero-gorsel-kutu" href="tel:{S["tel_link"]}" aria-label="{e(S["marka"])} — hemen ara: {e(S["tel"])}">{g}</a>' if g else ""
 
 def afis_bolum(baslik="Hizmetlerimiz Bir Bakışta", giris=None, taban="arslankaya-insaat-hizmet"):
@@ -464,13 +481,13 @@ def anasayfa():
     sema = (isletme_semasi() + sss_semasi(D.ANA_SSS) +
             ldj({"@context": "https://schema.org", "@type": "WebSite", "name": S["marka"],
                  "url": ALAN + "/", "inLanguage": "tr-TR"}))
-    on = ('<link rel="preload" as="image" type="image/webp" fetchpriority="high" '
-          'imagesrcset="/images/w500/arslankaya-insaat.webp 500w, /images/w900/arslankaya-insaat.webp 900w, '
-          '/images/w1200/arslankaya-insaat.webp 1200w, /images/w1600/arslankaya-insaat.webp 1600w" '
-          'imagesizes="(min-width:1000px) 560px, calc(100vw - 32px)">\n')
+    t = "arslankaya-insaat-hero"
+    on = ('<link rel="preload" as="image" type="image/webp" fetchpriority="high" imagesrcset="'
+          + ", ".join(f"/images/w{g}/{t}.webp {g}w" for g in GENISLIKLER) + '" imagesizes="(max-width:1000px) 150vw, 100vw">\n')
     return head(baslik, aciklama, "/", sema, on) + ust_header("/") + f"""
 <main id="ana">
-<section class="hero hero-ana hero-tam hero-desen hero-gorselli">
+<section class="hero hero-ana hero-tam hero-desen hero-gorselli hero-kb" id="heroKb">
+  {hero_fon()}
   <div class="kap hero-izgara">
   <div class="hero-metin">
     <p class="hero-ust">Bartın İnşaat Firması</p>
@@ -687,7 +704,7 @@ def yaz(yol, ic):
         f.write(ic)
 
 # Görsel sitemap: sayfa → üzerinde bulunan görseller
-SAYFA_GORSEL = {"/": ["arslankaya-insaat", "arslankaya-insaat-hizmet"],
+SAYFA_GORSEL = {"/": ["arslankaya-insaat-hero", "arslankaya-insaat", "arslankaya-insaat-hizmet"],
                 "/hizmetlerimiz/": ["arslankaya-insaat-hizmet"],
                 "/hakkimizda/": ["arslankaya-insaat"]}
 

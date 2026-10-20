@@ -6,12 +6,12 @@
 import os
 from PIL import Image
 KOK = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-GORSELLER = ["arslankaya-insaat-hizmet", "arslankaya-insaat"]
+GORSELLER = ["arslankaya-insaat-hizmet", "arslankaya-insaat", "arslankaya-insaat-hero"]
 for ad in GORSELLER:
     kaynak = next(os.path.join(KOK, "img", ad + u) for u in (".webp", ".jpg", ".png")
                   if os.path.exists(os.path.join(KOK, "img", ad + u)))
     im = Image.open(kaynak).convert("RGB")
-    for w in (500, 900, 1200, 1600):
+    for w in (500, 900, 1200, 1600, 1920):   # kaynaktan geniş türev üretilmez
         if w > im.width: continue
         os.makedirs(os.path.join(KOK, "images", f"w{w}"), exist_ok=True)
         im.resize((w, round(im.height * w / im.width)), Image.LANCZOS).save(
