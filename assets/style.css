@@ -1297,3 +1297,21 @@ body.kaydi .ust-kap{box-shadow:0 6px 24px rgba(16,20,26,.12)}
 .logo-im,body.kaydi .logo-im{height:clamp(44px,4.6vw,54px)}
 body.kaydi .logo-im{transform:scale(.9); transform-origin:left center}
 .menu a{white-space:nowrap}
+
+/* Ana sayfa hero: solda metin, sağda tanıtım görseli (kırpma yok) */
+.hero-gorselli::after{display:none}
+.hero .kap.hero-izgara{max-width:var(--kap)}
+.hero-izgara{display:grid; grid-template-columns:minmax(0,1.02fr) minmax(0,.98fr);
+  gap:clamp(28px,4vw,56px); align-items:center}
+.hero-izgara .hero-metin{max-width:none}
+.hero-gorselli h1{font-size:clamp(1.95rem,3.6vw,2.9rem)}
+.hero-gorsel-kutu{display:block; position:relative; z-index:2; border-radius:18px; overflow:hidden;
+  box-shadow:0 0 0 1px rgba(255,255,255,.08), 0 24px 60px rgba(0,0,0,.45);
+  transform:perspective(1200px) rotateY(-4deg); transition:transform .5s cubic-bezier(.2,.7,.3,1)}
+.hero-gorsel-kutu:hover{transform:perspective(1200px) rotateY(0)}
+.hero-gorsel-kutu img{display:block; width:100%; height:auto}
+@media (max-width:1000px){
+  .hero-izgara{grid-template-columns:1fr}
+  .hero-gorsel-kutu{transform:none; border-radius:14px}
+}
+@media (prefers-reduced-motion:reduce){.hero-gorsel-kutu{transform:none}}

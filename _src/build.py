@@ -107,12 +107,24 @@ AFIS_ALT = ("Arslankaya İnşaat tanıtım afişi: Bartın'da anahtar teslim in�
             "listesi, çalışma alanları, modern iki katlı villa ve baret görseli, Celal ve "
             "Kurtuluş Arslankaya'nın telefonları ile Bartın Merkez adresi")
 
-def afis_bolum(baslik="Hizmetlerimiz Bir Bakışta", giris=None):
+TANITIM_ALT = ("Arslankaya İnşaat tanıtım görseli: gün batımında taş ve ahşap cepheli modern "
+               "iki katlı villa, önde proje çizimleri üzerinde turuncu baret; konut inşaatları, "
+               "taahhüt işleri, tadilat ve ticari projeler ikonları ile iletişim bilgileri")
+
+def hero_gorsel():
+    """Ana sayfa hero'sunun sağ sütunu — kullanıcının 2026-10-20 genel tanıtım görseli.
+    ⚠️ LCP adayı: eager + fetchpriority=high, KIRPMA YOK (görselde yazı + telefon var)."""
+    g = gorsel("arslankaya-insaat", TANITIM_ALT,
+               boy="(min-width:1000px) 560px, calc(100vw - 32px)", oncelik=True)
+    return f'<a class="hero-gorsel-kutu" href="tel:{S["tel_link"]}" aria-label="{e(S["marka"])} — hemen ara: {e(S["tel"])}">{g}</a>' if g else ""
+
+def afis_bolum(baslik="Hizmetlerimiz Bir Bakışta", giris=None, taban="arslankaya-insaat-hizmet"):
     """Kullanıcının 2026-10-20'de verdiği tanıtım afişi (img/arslankaya-insaat-hizmet.webp).
     ⚠️ KIRPMA YOK ve üstüne yazı/perde BİNMEZ: afişin alt şeridinde telefon ve adres var,
        dehaiskele'deki .vitrin-ara bindirmesi onu örtüyordu → arama düğmesi görselin ALTINDA.
     ⚠️ Afişteki metin görselde; aynı bilgiler sayfada HTML olarak da var (SEO değeri orada)."""
-    g = gorsel("arslankaya-insaat-hizmet", AFIS_ALT, boy="(min-width:1220px) 1180px, 100vw")
+    alt = TANITIM_ALT if taban == "arslankaya-insaat" else AFIS_ALT
+    g = gorsel(taban, alt, boy="(min-width:1220px) 1180px, 100vw")
     if not g:
         return ""
     gr = f'<p class="giris">{e(giris)}</p>' if giris else ""
@@ -144,7 +156,7 @@ MENU = [
     ("/iletisim/", "İletişim"),
 ]
 
-def head(baslik, aciklama, yol, schema=""):
+def head(baslik, aciklama, yol, schema="", on_yukle=""):
     kanonik = ALAN + yol
     ac = kirp(aciklama)
     return f"""<!DOCTYPE html>
@@ -171,7 +183,7 @@ def head(baslik, aciklama, yol, schema=""):
 <link rel="icon" type="image/png" href="/images/favicon-48.png" sizes="48x48">
 <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
 <link rel="preload" href="/assets/fonts/pjs-var-tr.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="{surum('/assets/style.css')}">
+{on_yukle}<link rel="stylesheet" href="{surum('/assets/style.css')}">
 <script>document.documentElement.classList.add('js')</script>
 {schema}
 </head>
@@ -308,7 +320,8 @@ def isletme_semasi():
         "url": ALAN + "/",
         "telephone": [S["tel_link"], S["tel2_link"]],
         "description": S["aciklama"],
-        "image": ALAN + "/images/og-arslankaya-insaat.jpg",
+        "image": [ALAN + "/images/og-arslankaya-insaat.jpg",
+                  ALAN + "/images/w1600/arslankaya-insaat-hizmet.webp"],
         "logo": ALAN + "/images/logo/arslankaya-logo-720.webp",
         "slogan": "Güvenle İnşa Ediyoruz",
         "address": {"@type": "PostalAddress", "streetAddress": S["adres_sokak"],
@@ -451,10 +464,15 @@ def anasayfa():
     sema = (isletme_semasi() + sss_semasi(D.ANA_SSS) +
             ldj({"@context": "https://schema.org", "@type": "WebSite", "name": S["marka"],
                  "url": ALAN + "/", "inLanguage": "tr-TR"}))
-    return head(baslik, aciklama, "/", sema) + ust_header("/") + f"""
+    on = ('<link rel="preload" as="image" type="image/webp" fetchpriority="high" '
+          'imagesrcset="/images/w500/arslankaya-insaat.webp 500w, /images/w900/arslankaya-insaat.webp 900w, '
+          '/images/w1200/arslankaya-insaat.webp 1200w, /images/w1600/arslankaya-insaat.webp 1600w" '
+          'imagesizes="(min-width:1000px) 560px, calc(100vw - 32px)">\n')
+    return head(baslik, aciklama, "/", sema, on) + ust_header("/") + f"""
 <main id="ana">
-<section class="hero hero-ana hero-tam hero-desen">
-  <div class="kap hero-metin">
+<section class="hero hero-ana hero-tam hero-desen hero-gorselli">
+  <div class="kap hero-izgara">
+  <div class="hero-metin">
     <p class="hero-ust">Bartın İnşaat Firması</p>
     {hero_h1(["Bartın İnşaat Firması - Arslankaya İnşaat"])}
     <p class="hero-slogan">“Güvenle İnşa Ediyoruz.”</p>
@@ -463,6 +481,8 @@ def anasayfa():
     <div class="dg-grup">{tel_btn()}{teklif_btn("dg dg-cerceve")}</div>
     <ul class="hero-cip"><li>Bartın Merkez</li><li>13 hizmet kalemi</li>
       <li>Yerinde keşif</li><li>Yazılı teklif</li></ul>
+  </div>
+  {hero_gorsel()}
   </div>
 </section>
 {guven_seridi()}
@@ -590,7 +610,7 @@ def hakkimizda_sayfasi():
   <h2>Kimlerle Çalışıyoruz?</h2>
   <ul class="ok-liste">{"".join(f'<li><a href="/{a["slug"]}/">{e(a["ad"])}</a></li>' for a in D.ALANLAR)}</ul>
 </div></section>
-{afis_bolum("Arslankaya İnşaat Tanıtım")}
+{afis_bolum("Arslankaya İnşaat Tanıtım", taban="arslankaya-insaat")}
 {iletisim_kartlari()}
 {cta_band("Tanışalım", "İşinizi anlatın; yerinde keşif için uygun günü birlikte belirleyelim.")}
 </main>
@@ -666,7 +686,10 @@ def yaz(yol, ic):
     with open(hedef, "w", encoding="utf-8") as f:
         f.write(ic)
 
-AFIS_SAYFALARI = {"/", "/hizmetlerimiz/", "/hakkimizda/"}
+# Görsel sitemap: sayfa → üzerinde bulunan görseller
+SAYFA_GORSEL = {"/": ["arslankaya-insaat", "arslankaya-insaat-hizmet"],
+                "/hizmetlerimiz/": ["arslankaya-insaat-hizmet"],
+                "/hakkimizda/": ["arslankaya-insaat"]}
 
 def main():
     yollar = []
@@ -686,10 +709,8 @@ def main():
           '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" '
           'xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">']
     for y, p in yollar:
-        gor = ""
-        if y in AFIS_SAYFALARI:
-            gor = (f"<image:image><image:loc>{ALAN}/images/w1600/arslankaya-insaat-hizmet.webp"
-                   f"</image:loc></image:image>")
+        gor = "".join(f"<image:image><image:loc>{ALAN}/images/w1600/{t}.webp</image:loc></image:image>"
+                      for t in SAYFA_GORSEL.get(y, []))
         sm.append(f"  <url><loc>{ALAN}{y}</loc><priority>{p}</priority>{gor}</url>")
     sm.append("</urlset>")
     open(os.path.join(KOK, "sitemap.xml"), "w", encoding="utf-8").write("\n".join(sm) + "\n")

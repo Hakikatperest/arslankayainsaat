@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
-  <url><loc>https://arslankayainsaat.com/</loc><priority>1.0</priority><image:image><image:loc>https://arslankayainsaat.com/images/w1600/arslankaya-insaat-hizmet.webp</image:loc></image:image></url>
+  <url><loc>https://arslankayainsaat.com/</loc><priority>1.0</priority><image:image><image:loc>https://arslankayainsaat.com/images/w1600/arslankaya-insaat.webp</image:loc></image:image><image:image><image:loc>https://arslankayainsaat.com/images/w1600/arslankaya-insaat-hizmet.webp</image:loc></image:image></url>
   <url><loc>https://arslankayainsaat.com/temelden-catiya-insaat/</loc><priority>0.9</priority></url>
   <url><loc>https://arslankayainsaat.com/kaba-insaat/</loc><priority>0.9</priority></url>
   <url><loc>https://arslankayainsaat.com/ince-insaat/</loc><priority>0.9</priority></url>
@@ -21,6 +21,6 @@
   <url><loc>https://arslankayainsaat.com/toplu-konut-ve-buyuk-olcekli-projeler/</loc><priority>0.7</priority></url>
   <url><loc>https://arslankayainsaat.com/hizmetlerimiz/</loc><priority>0.9</priority><image:image><image:loc>https://arslankayainsaat.com/images/w1600/arslankaya-insaat-hizmet.webp</image:loc></image:image></url>
   <url><loc>https://arslankayainsaat.com/calisma-alanlari/</loc><priority>0.7</priority></url>
-  <url><loc>https://arslankayainsaat.com/hakkimizda/</loc><priority>0.6</priority><image:image><image:loc>https://arslankayainsaat.com/images/w1600/arslankaya-insaat-hizmet.webp</image:loc></image:image></url>
+  <url><loc>https://arslankayainsaat.com/hakkimizda/</loc><priority>0.6</priority><image:image><image:loc>https://arslankayainsaat.com/images/w1600/arslankaya-insaat.webp</image:loc></image:image></url>
   <url><loc>https://arslankayainsaat.com/iletisim/</loc><priority>0.6</priority></url>
 </urlset>

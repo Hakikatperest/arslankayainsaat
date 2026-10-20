@@ -6,7 +6,7 @@
 import os
 from PIL import Image
 KOK = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-GORSELLER = ["arslankaya-insaat-hizmet"]
+GORSELLER = ["arslankaya-insaat-hizmet", "arslankaya-insaat"]
 for ad in GORSELLER:
     kaynak = next(os.path.join(KOK, "img", ad + u) for u in (".webp", ".jpg", ".png")
                   if os.path.exists(os.path.join(KOK, "img", ad + u)))
@@ -16,8 +16,8 @@ for ad in GORSELLER:
         os.makedirs(os.path.join(KOK, "images", f"w{w}"), exist_ok=True)
         im.resize((w, round(im.height * w / im.width)), Image.LANCZOS).save(
             os.path.join(KOK, "images", f"w{w}", ad + ".webp"), quality=80, method=6)
-# Paylaşım görseli: JPEG (bazı uygulamalar WebP og:image'ı göstermiyor), 1200 genişlik
-im = Image.open(os.path.join(KOK, "img", "arslankaya-insaat-hizmet.webp")).convert("RGB")
+# Paylaşım görseli: genel marka görseli (hizmet listeli afiş değil). JPEG (bazı uygulamalar WebP og:image'ı göstermiyor), 1200 genişlik
+im = Image.open(os.path.join(KOK, "img", "arslankaya-insaat.webp")).convert("RGB")
 im.resize((1200, round(im.height * 1200 / im.width)), Image.LANCZOS).save(
     os.path.join(KOK, "images", "og-arslankaya-insaat.jpg"), quality=84, optimize=True, progressive=True)
 print("türevler üretildi")
