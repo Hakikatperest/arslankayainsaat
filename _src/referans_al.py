@@ -2,7 +2,7 @@
 """Panelden (panel.arslankayainsaat.com) gelen referans verisini depoya alır.
 Kullanım: python3 _src/referans_al.py /home/panel.arslankayainsaat.com/veri
 - veri/referanslar.json → _src/referanslar.json (alanlar süzülür, tipler zorlanır)
-- veri/gorseller/<id>.webp → img/referans/<id>.webp ; artık kullanılmayanlar silinir
+- veri/gorseller/<id>.webp → img/referans/<id>.webp — YALNIZ görünürler; gizli/silinenler silinir
 - data.HIZMETLER → veri/hizmetler.json (paneldeki "ilgili hizmet" listesi senkron kalsın)
 ⚠️ Panel verisi GÜVENİLMEZ girdi sayılır: id/görsel adı regex'le doğrulanır, metin build'de kaçışlanır."""
 import json, os, re, shutil, sys
@@ -31,7 +31,9 @@ for r in ham:
         "sira": int(r.get("sira", 0)),
         "tarih": str(r.get("tarih", ""))[:25],
     })
-    kullanilan.add(gorsel)
+    # ⚠️ Gizli referansın görseli depoya (= herkese açık Pages adresine) KOPYALANMAZ.
+    if r.get("gorunur"):
+        kullanilan.add(gorsel)
 temiz.sort(key=lambda r: (r["sira"], r["tarih"]))
 hedef = os.path.join(KOK, "img", "referans")
 os.makedirs(hedef, exist_ok=True)

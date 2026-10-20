@@ -49,6 +49,7 @@ ref_dizin = os.path.join(KOK, "images", "referans")
 os.makedirs(ref_dizin, exist_ok=True)
 gecerli = set()
 for r in REF:
+    if not r.get("gorunur"): continue       # gizli referansın türevi üretilmez (herkese açık olurdu)
     kaynak = os.path.join(KOK, "img", "referans", r["id"] + ".webp")
     if not os.path.exists(kaynak): continue
     ad = referans_dosya_adi(r)
