@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """img/ altındaki kaynak görsellerden w500/w900/w1600 WebP türevi + og:image üretir.
 ⚠️ cwebp varsayılanı (-m 6 -pass 10) KULLANILMIYOR — yavaş ve dosyayı büyütebiliyor;
-   Pillow quality=82 method=4. Kaynaklar img/ altında kalır, silinmez.
+   Pillow quality=80 method=6 (tek görsel, süre sorun değil). Kaynaklar img/ altında kalır, silinmez.
 ⚠️ Logo burada değil, _src/logo.py'de (parlama temizliği gerekiyor)."""
 import os
 from PIL import Image
@@ -11,11 +11,11 @@ for ad in GORSELLER:
     kaynak = next(os.path.join(KOK, "img", ad + u) for u in (".webp", ".jpg", ".png")
                   if os.path.exists(os.path.join(KOK, "img", ad + u)))
     im = Image.open(kaynak).convert("RGB")
-    for w in (500, 900, 1600):
+    for w in (500, 900, 1200, 1600):
         if w > im.width: continue
         os.makedirs(os.path.join(KOK, "images", f"w{w}"), exist_ok=True)
         im.resize((w, round(im.height * w / im.width)), Image.LANCZOS).save(
-            os.path.join(KOK, "images", f"w{w}", ad + ".webp"), quality=82, method=4)
+            os.path.join(KOK, "images", f"w{w}", ad + ".webp"), quality=80, method=6)
 # Paylaşım görseli: JPEG (bazı uygulamalar WebP og:image'ı göstermiyor), 1200 genişlik
 im = Image.open(os.path.join(KOK, "img", "arslankaya-insaat-hizmet.webp")).convert("RGB")
 im.resize((1200, round(im.height * 1200 / im.width)), Image.LANCZOS).save(

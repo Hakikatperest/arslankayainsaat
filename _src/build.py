@@ -87,7 +87,7 @@ def ikon(ad, boy=36):
     return svg(IKON[ad], boy)
 
 # ── Görseller ───────────────────────────────────────────────────────────────
-GENISLIKLER = (500, 900, 1600)
+GENISLIKLER = (500, 900, 1200, 1600)
 def gorsel(taban, alt, boy="100vw", oncelik=False):
     """_src/media.py türevlerinden srcset'li <picture>. Türev yoksa BOŞ döner."""
     kaynak = [(g, f"/images/w{g}/{taban}.webp") for g in GENISLIKLER
@@ -98,11 +98,14 @@ def gorsel(taban, alt, boy="100vw", oncelik=False):
     with Image.open(os.path.join(KOK, kaynak[-1][1].lstrip("/"))) as im:
         w, h = im.size
     yukle = ' loading="eager" fetchpriority="high"' if oncelik else ' loading="lazy" decoding="async"'
-    return (f'<picture><img src="{kaynak[-1][1]}" srcset="{", ".join(f"{y} {g}w" for g, y in kaynak)}" '
+    yedek = next((y for g, y in kaynak if g == 900), kaynak[-1][1])
+    return (f'<picture><img src="{yedek}" srcset="{", ".join(f"{y} {g}w" for g, y in kaynak)}" '
             f'sizes="{boy}" alt="{e(alt)}" width="{w}" height="{h}"{yukle}></picture>')
 
-AFIS_ALT = ("Arslankaya İnşaat tanıtım görseli: anahtar teslim inşaat hizmetleri, çalışma "
-            "alanları, Celal Arslankaya ve Kurtuluş Arslankaya telefonları, Bartın Merkez adresi")
+# ⚠️ Alt metin görselin GÖSTERDİĞİNİ anlatır (dosya adını değil); anahtar kelime doldurma yok.
+AFIS_ALT = ("Arslankaya İnşaat tanıtım afişi: Bartın'da anahtar teslim inşaat hizmetleri "
+            "listesi, çalışma alanları, modern iki katlı villa ve baret görseli, Celal ve "
+            "Kurtuluş Arslankaya'nın telefonları ile Bartın Merkez adresi")
 
 def afis_bolum(baslik="Hizmetlerimiz Bir Bakışta", giris=None):
     """Kullanıcının 2026-10-20'de verdiği tanıtım afişi (img/arslankaya-insaat-hizmet.webp).
@@ -126,10 +129,12 @@ def logo(koyu_zemin=False, buyuk=False):
        (koyu harfler beyaza çekilmiş) yalnız koyu zemine konacak yerler için hazır."""
     ad = "arslankaya-logo-ak" if koyu_zemin else "arslankaya-logo"
     kaynak = ", ".join(f"/images/logo/{ad}-{w}.webp {w}w" for w in (240, 360, 520, 720))
+    # Üstteki logo ilk ekranda → yüksek öncelik; alt bilgideki lazy.
+    yukle = 'loading="lazy" decoding="async"' if buyuk else 'fetchpriority="high"'
     olcu = "300px" if buyuk else "(min-width:860px) 226px, 184px"
     return (f'<span class="logo"><img src="/images/logo/{ad}-360.webp" srcset="{kaynak}" '
-            f'sizes="{olcu}" width="360" height="86" alt="{e(S["marka"])} logosu" '
-            f'class="logo-im" decoding="async"></span>')
+            f'sizes="{olcu}" width="360" height="86" alt="{e(S["marka"])} logosu — Bartın inşaat firması" '
+            f'class="logo-im" {yukle}></span>')
 
 MENU = [
     ("/", "Ana Sayfa"),
@@ -661,6 +666,8 @@ def yaz(yol, ic):
     with open(hedef, "w", encoding="utf-8") as f:
         f.write(ic)
 
+AFIS_SAYFALARI = {"/", "/hizmetlerimiz/", "/hakkimizda/"}
+
 def main():
     yollar = []
     yaz("/", anasayfa()); yollar.append(("/", "1.0"))
@@ -676,8 +683,14 @@ def main():
     yaz("/404.html", hata404())
 
     sm = ['<?xml version="1.0" encoding="UTF-8"?>',
-          '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
-    sm += [f"  <url><loc>{ALAN}{y}</loc><priority>{p}</priority></url>" for y, p in yollar]
+          '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" '
+          'xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">']
+    for y, p in yollar:
+        gor = ""
+        if y in AFIS_SAYFALARI:
+            gor = (f"<image:image><image:loc>{ALAN}/images/w1600/arslankaya-insaat-hizmet.webp"
+                   f"</image:loc></image:image>")
+        sm.append(f"  <url><loc>{ALAN}{y}</loc><priority>{p}</priority>{gor}</url>")
     sm.append("</urlset>")
     open(os.path.join(KOK, "sitemap.xml"), "w", encoding="utf-8").write("\n".join(sm) + "\n")
     open(os.path.join(KOK, "robots.txt"), "w", encoding="utf-8").write(
