@@ -1152,13 +1152,7 @@ body.kaydi .ust-kap{box-shadow:0 6px 24px rgba(16,20,26,.12)}
    aynı özgüllükte oldukları için ALT BİLGİ logosunu da küçültüyorlardı
    (208px yerine 65px render oluyordu — scale(.86) + height ezmesi).
    Alt bilgi logosu kaydırma durumundan bağımsız. */
-.alt .logo-im,body.kaydi .alt .logo-im{height:208px; transform:none; max-width:100%}
-@media (max-width:860px){
-  .alt .logo-im,body.kaydi .alt .logo-im{height:150px}
-}
-@media (max-width:400px){
-  .alt .logo-im,body.kaydi .alt .logo-im{height:120px}
-}
+/* (Deha'nın dikey logosuna göre yazılmış 208/150/120px kuralları kaldırıldı — aşağıya bakın) */
 
 /* Sosyal hesap bağlantıları (alt bilgi) */
 .alt-sosyal{display:flex; flex-wrap:wrap; gap:9px; margin-top:16px}
@@ -1210,7 +1204,11 @@ body.kaydi .ust-kap{box-shadow:0 6px 24px rgba(16,20,26,.12)}
 
 /* Logo 4,17:1 yatay — 44px altında "İNŞAAT" satırı okunmuyor. */
 .logo-im{height:clamp(44px,4.6vw,54px)}
-.alt .logo-im{height:auto; width:min(300px,100%)}
+/* ⚠️ Alt bilgi logosu: GENİŞLİK sabit, yükseklik orandan. Deha'nın `body.kaydi .alt .logo-im
+   {height:208px}` kuralı alt bilgiye inildiğinde (sayfa hep kaydırılmış) logoyu dikey eziyordu.
+   Özgüllük body.kaydi'yi de kapsasın diye iki seçici birlikte. */
+.alt .logo-im,body.kaydi .alt .logo-im{width:min(300px,100%); height:auto; max-width:100%;
+  aspect-ratio:360/86; transform:none}
 
 /* Görselsiz hero: lacivert zemin + ince plan (blueprint) ızgarası + sağda bina silüeti */
 .hero-desen{position:relative; overflow:hidden; color:#fff;
