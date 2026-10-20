@@ -494,10 +494,18 @@ def cta_band(baslik, metin, konu="inşaat işi"):
   <div class="dg-grup">{tel_btn()}{tel2_btn()}{wa_btn(f"Merhaba, {konu} için bilgi almak istiyorum.")}</div>
 </div></section>"""
 
-def hero_ic(ust, satirlar, alt, konu="inşaat işi", cipler=None):
+def hero_ic(ust, satirlar, alt, konu="inşaat işi", cipler=None, fon=None):
     cip = "".join(f"<li>{e(c)}</li>" for c in (cipler or []))
     cip = f'<ul class="hero-cip">{cip}</ul>' if cip else ""
-    return f"""<section class="hero hero-ic hero-desen">
+    fon_html, ek = "", ""
+    if fon:   # (taban, alt) — ana sayfanın katman yapısı, animasyonsuz (hero-sabit)
+        g = gorsel(fon[0], fon[1], boy="(max-width:1000px) 150vw, 100vw", oncelik=True, sinif="fon-img")
+        if g:
+            fon_html = (f'<div class="hero-fon-kat" aria-hidden="true">{g}</div>'
+                        f'<div class="hero-fon-perde" aria-hidden="true"></div>')
+            ek = " hero-kb hero-sabit hero-gorselli"
+    return f"""<section class="hero hero-ic hero-desen{ek}">
+  {fon_html}
   <div class="kap hero-metin">
     <p class="hero-ust">{e(ust)}</p>
     {hero_h1(satirlar)}
@@ -620,6 +628,31 @@ def kimlik(baslik):
 
 KUTU_SINIF = {"Tavsiyemiz": "kutu-tavsiye", "Dikkat": "kutu-dikkat", "Önemli": "kutu-onemli"}
 
+def govde_uret(ic, ara_gorsel=""):
+    """icerik.py yapısından (giris/bolumler) HTML üretir. ara_gorsel ilk bölümden sonra girer."""
+    giris = "".join(f"<p>{metin(p)}</p>" for p in ic["giris"])
+    govde, icindekiler = [], []
+    for n, b in enumerate(ic["bolumler"]):
+        k = kimlik(b["h"])
+        icindekiler.append(f'<li><a href="#{k}">{e(b["h"])}</a></li>')
+        parca = [f'<h2 id="{k}">{e(b["h"])}</h2>']
+        parca += [f"<p>{metin(p)}</p>" for p in b.get("p", [])[:1]]
+        if b.get("liste"):
+            parca.append('<ul class="ok-liste">' +
+                         "".join(f"<li>{metin(x)}</li>" for x in b["liste"]) + "</ul>")
+        parca += [f"<p>{metin(p)}</p>" for p in b.get("p", [])[1:]]
+        parca += [f"<p>{metin(p)}</p>" for p in b.get("son", [])]
+        if b.get("kutu"):
+            tur, yazi = b["kutu"]
+            parca.append(f'<aside class="kutu {KUTU_SINIF.get(tur, "")}"><strong>{e(tur)}:</strong> '
+                         f'{metin(yazi)}</aside>')
+        if n == 0 and ara_gorsel:
+            parca.append(ara_gorsel)
+        govde.append("\n".join(parca))
+    ind = (f'<nav class="icindekiler" aria-label="Bu sayfada"><strong>Bu sayfada neler var?</strong>'
+           f'<ol>{"".join(icindekiler)}</ol></nav>')
+    return giris, ind, "".join(govde)
+
 def hizmet_sayfasi(h):
     yol = f'/{h["slug"]}/'
     ic = I.ICERIK[h["slug"]]
@@ -635,25 +668,7 @@ def hizmet_sayfasi(h):
     alan_ln = ", ".join(f'<a href="/{a["slug"]}/">{e(kucuk(a["kisa"]))}</a>' for a in alanlar)
     alan_p = (f"<p>Bu hizmeti {alan_ln} müşterilerimize veriyoruz.</p>" if alanlar else "")
 
-    giris = "".join(f"<p>{metin(p)}</p>" for p in ic["giris"])
-    govde, icindekiler = [], []
-    for b in ic["bolumler"]:
-        k = kimlik(b["h"])
-        icindekiler.append(f'<li><a href="#{k}">{e(b["h"])}</a></li>')
-        parca = [f'<h2 id="{k}">{e(b["h"])}</h2>']
-        parca += [f"<p>{metin(p)}</p>" for p in b.get("p", [])[:1]]
-        if b.get("liste"):
-            parca.append('<ul class="ok-liste">' +
-                         "".join(f"<li>{metin(x)}</li>" for x in b["liste"]) + "</ul>")
-        parca += [f"<p>{metin(p)}</p>" for p in b.get("p", [])[1:]]
-        parca += [f"<p>{metin(p)}</p>" for p in b.get("son", [])]
-        if b.get("kutu"):
-            tur, yazi = b["kutu"]
-            parca.append(f'<aside class="kutu {KUTU_SINIF.get(tur, "")}"><strong>{e(tur)}:</strong> '
-                         f'{metin(yazi)}</aside>')
-        govde.append("\n".join(parca))
-    ind = (f'<nav class="icindekiler" aria-label="Bu sayfada"><strong>Bu sayfada neler var?</strong>'
-           f'<ol>{"".join(icindekiler)}</ol></nav>')
+    giris, ind, govde = govde_uret(ic)
     sema = isletme_semasi() + hizmet_semasi(h) + sss_semasi(ic["sss"])
     return head(baslik, aciklama, yol, sema) + ust_header() + f"""
 <main id="ana">
@@ -663,7 +678,7 @@ def hizmet_sayfasi(h):
   {giris}
   {hizmet_vitrin(h)}
   {ind}
-  {"".join(govde)}
+  {govde}
   {alan_p}
 </div></section>
 {referans_bolum(h["ad"] + " Referanslarımız", [r for r in REF if r.get("hizmet") == h["slug"]][:6])}
@@ -689,26 +704,48 @@ def hizmetler_sayfasi():
 </main>
 {alt_bilgi()}"""
 
+def alan_gorsel(a, sira):
+    g = D.ALAN_GORSEL.get(a["slug"])
+    if not g or len(g) <= sira:
+        return None
+    return (f"bartin-{g[sira][0]}", g[sira][1])
+
 def alan_sayfasi(a):
     yol = f'/{a["slug"]}/'
+    ic = I.ALAN_ICERIK[a["slug"]]
     baslik = f'{a["ad"]} | {S["marka"]} Bartın'
     aciklama = f'{a["ozet"]} Arslankaya İnşaat, Bartın Merkez. Yerinde keşif ve yazılı teklif: {S["tel"]}'
-    metin = "".join(f"<p>{e(p)}</p>" for p in a["metin"])
+    g2 = alan_gorsel(a, 1)
+    ara = ""
+    if g2:
+        p = gorsel(g2[0], g2[1], boy="(min-width:860px) 780px, calc(100vw - 32px)")
+        ara = (f'<figure class="govde-gorsel"><a href="/images/w1600/{g2[0]}.webp" data-buyut '
+               f'aria-label="Görseli büyüt">{p}</a></figure>') if p else ""
+    giris, ind, govde = govde_uret(ic, ara)
     diger = "".join(f'<li><a href="/{x["slug"]}/">{e(x["ad"])}</a></li>' for x in D.ALANLAR if x is not a)
-    return head(baslik, aciklama, yol, isletme_semasi()) + ust_header("/calisma-alanlari/") + f"""
+    sema = isletme_semasi() + sss_semasi(ic["sss"])
+    return head(baslik, aciklama, yol, sema) + ust_header("/calisma-alanlari/") + f"""
 <main id="ana">
 {kirinti([("Ana Sayfa", "/"), ("Çalışma Alanları", "/calisma-alanlari/"), (a["ad"], None)])}
-{hero_ic("Çalışma Alanlarımız", [a["ad"]], a["ozet"])}
+{hero_ic("Çalışma Alanlarımız", [a["ad"]], a["ozet"], fon=alan_gorsel(a, 0))}
 <section class="bol"><div class="kap dar metin">
-  <h2>Bu Alanda Neler Yapıyoruz?</h2>
-  {metin}
+  {giris}
+  {ind}
+  {govde}
   <h2>Diğer Çalışma Alanlarımız</h2>
   <ul class="ok-liste">{diger}</ul>
 </div></section>
-{hizmet_kartlari("Bu Alanda Sık Verdiğimiz Hizmetler", liste=[HIZ[s] for s in a["hizmet"]])}
+{referans_bolum("Referanslarımız", REF[:3])}
+{hizmet_kartlari("Bu Alanda Sık Verdiğimiz Hizmetler", liste=[HIZ[x] for x in a["hizmet"]])}
+{sss_bolum(ic["sss"], a["ad"] + " — Sık Sorulanlar")}
 {cta_band("Projenizi konuşalım", "Kapsamı anlatın; keşif ve yazılı teklif için gün belirleyelim.")}
 </main>
 {alt_bilgi()}"""
+
+def alan_kart_gorsel(a):
+    g = alan_gorsel(a, 0)
+    p = gorsel(g[0], g[1], boy="(min-width:1000px) 380px, 100vw") if g else ""
+    return f'<span class="alan-foto">{p}</span>' if p else ""
 
 def alanlar_sayfasi():
     yol = "/calisma-alanlari/"
@@ -716,7 +753,7 @@ def alanlar_sayfasi():
     aciklama = ("Arslankaya İnşaat müteahhitler, bireysel müşteriler, kamu kurumları, ticari "
                 "işletmeler ve toplu konut projeleri için Bartın'da inşaat hizmeti veriyor.")
     kart = "".join(
-        f'<a class="donem alan-kart gel" href="/{a["slug"]}/"><span class="alan-ik">{ikon(a["ikon"], 34)}</span>'
+        f'<a class="donem alan-kart gel" href="/{a["slug"]}/">{alan_kart_gorsel(a)}<span class="alan-ik">{ikon(a["ikon"], 34)}</span>'
         f'<h3>{e(a["ad"])}</h3><p>{e(a["ozet"])}</p><span class="kart-ok">Detaylı Bilgi</span></a>'
         for a in D.ALANLAR)
     return head(baslik, aciklama, yol, isletme_semasi()) + ust_header(yol) + f"""
@@ -857,6 +894,10 @@ def main():
     for y, p in yollar:
         gor = "".join(f"<image:image><image:loc>{ALAN}/images/w1600/{t}.webp</image:loc></image:image>"
                       for t in SAYFA_GORSEL.get(y, []))
+        for a in D.ALANLAR:
+            if y == f'/{a["slug"]}/':
+                gor += "".join(f"<image:image><image:loc>{ALAN}/images/w1600/bartin-{k}.webp</image:loc></image:image>"
+                               for k, _alt, _u in D.ALAN_GORSEL.get(a["slug"], []))
         if y == "/referanslarimiz/":
             gor += "".join(f"<image:image><image:loc>{ALAN}/images/referans/{referans_dosya_adi(r)}-1600.webp"
                            f"</image:loc></image:image>" for r in REF)

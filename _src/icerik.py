@@ -695,3 +695,248 @@ ICERIK = {
 ],
 },
 }
+
+
+# ═══════════════════════════════════════════════════════════════════════════
+# Çalışma alanı sayfaları (2026-10-20: kullanıcı "çok kısa ve birbirine benziyor" dedi).
+# ⚠️ Her sayfa KENDİ derdini anlatır; ortak cümle tekrarı yok. Aynı kurallar: teyitsiz iddia yok,
+#    geçmiş ihale/proje UYDURMA yok (firma gerçek iş verince referans panelinden eklenir).
+# Görseller: data.ALAN_GORSEL (Unsplash Lisansı, img/stok/).
+# ═══════════════════════════════════════════════════════════════════════════
+ALAN_ICERIK = {
+
+"muteahhitlere-ozel-insaat-hizmetleri": {
+"giris": [
+    "Müteahhit olarak sizin derdiniz belli: bina zamanında bitsin, yapı denetim takılmasın, "
+    "bir ekibin bıraktığı iş bir sonrakini uğraştırmasın.. Taşeron seçerken aslında fiyattan "
+    "çok bu üçünü satın alıyorsunuz :)",
+    "Biz Arslankaya İnşaat olarak müteahhitlere kaba inşaattan ince işe kadar **tek kalem ya da "
+    "paket halinde** taşeron olarak çalışıyoruz.",
+],
+"bolumler": [
+    {"h": "Hangi Kalemleri Taşeron Olarak Alıyoruz?",
+     "liste": ["[[beton-kalip-demir|Kalıp, demir ve beton]] işçiliği",
+               "[[kaba-insaat|Kaba inşaat]] (temelden çatı karkasına)",
+               "[[duvar-siva|Duvar örümü ve sıva]]", "[[mantolama-yalitim|Mantolama ve yalıtım]]",
+               "[[cati-izolasyon|Çatı konstrüksiyonu ve kaplama]]",
+               "[[ince-insaat|İnce işler]]: şap, alçı, boya, seramik"],
+     "son": ["İşin tamamını vermek zorunda değilsiniz. \"Kaba bizde, mantolama sizde\" gibi "
+             "parçalı anlaşmalar da yapıyoruz."]},
+    {"h": "Bir Müteahhidin Taşerondan Beklediği Üç Şey",
+     "liste": ["**Takvime uymak.** İş programını baştan yazılı veriyoruz; Bartın'ın yağışlı "
+               "günlerini de bu programa pay olarak koyuyoruz ki sürpriz olmasın.",
+               "**Yapı denetimde takılmamak.** Demir ve kalıp kontrollerine sahayı hazır "
+               "teslim ediyoruz; kontrol tutanağı imzalanmadan beton siparişi verilmiyor.",
+               "**Bir sonraki ekibe temiz iş bırakmak.** Şakulünde duvar, mastarında sıva, "
+               "temizlenmiş kat. Sıvacının duvarcıya, boyacının sıvacıya kızmadığı bir şantiye :)"]},
+    {"h": "Ölçü ve Hakediş Nasıl Yapılıyor?",
+     "p": ["Birim fiyatla mı (metrekare, metreküp, ton) yoksa götürü bedelle mi çalışılacağını "
+           "işin başında konuşuyoruz. Hakedişler aşama ya da kat bazlı yapılabiliyor; ölçünün "
+           "nasıl alınacağı (net mi, brüt mü, boşluklar düşülecek mi) sözleşmede yazılı oluyor."],
+     "kutu": ("Tavsiyemiz", "Taşeron sözleşmesinde metraj yöntemini mutlaka yazın. Anlaşmazlıkların "
+              "çoğu fiyattan değil, \"pencere boşluğu düşülecek miydi?\" gibi ölçü sorularından çıkar..")},
+    {"h": "Sahada İş Güvenliği",
+     "p": ["Baret, emniyet kemeri, korkuluk, iskele bağlantısı.. Bunlar bizim için pazarlık konusu "
+           "değil. Şantiyenin genel iş güvenliği düzeni sizin iş güvenliği uzmanınızla birlikte "
+           "yürüyor; biz kendi ekibimizin kurallara uymasından sorumluyuz."]},
+],
+"sss": [
+    ("Sadece işçilik mi veriyorsunuz?",
+     "Çoğunlukla malzemesi müteahhitten işçilik çalışıyoruz; malzeme dahil seçeneğini de işin "
+     "kalemine göre konuşabiliyoruz."),
+    ("Birden fazla bloğu aynı anda yürütebilir misiniz?",
+     "Bu, iş kalemine ve takvime bağlı. Keşifte ekip planını açıkça konuşuyoruz; yetişmeyecek işi "
+     "\"yetişir\" diye almıyoruz."),
+    ("Hakediş nasıl yapılır?",
+     "Aşama ya da kat bazlı hakediş yapılabiliyor; ölçü yöntemi sözleşmede yazılı oluyor."),
+    ("Bartın dışındaki işlere geliyor musunuz?",
+     "İşin büyüklüğüne ve yerine göre değişiyor; arayın, konuşalım."),
+],
+},
+
+"bireysel-musterilere-ozel-hizmetler": {
+"giris": [
+    "Bir ev sahibi için tadilat ya da inşaat çoğu zaman hayatında bir iki kez yaptığı bir iş. "
+    "Hangi usta ne yapar, teklif nasıl okunur, ne kadar sürer.. Bunları bilmemeniz çok normal.",
+    "Biz Arslankaya İnşaat olarak bireysel müşterilerle çalışırken en çok **açık konuşmaya** "
+    "özen gösteriyoruz: neyin neden yapılacağını inşaat jargonuna boğmadan anlatıyoruz.",
+],
+"bolumler": [
+    {"h": "Ev Sahiplerinden En Sık Gelen İşler",
+     "liste": ["[[temelden-catiya-insaat|Müstakil ev yapımı]] — arsadan anahtara",
+               "[[tadilat-tamirat|Banyo ve mutfak yenileme]]",
+               "[[cati-izolasyon|Çatı aktarma]] ve akıntı onarımı",
+               "[[mantolama-yalitim|Mantolama]] — ısınmayan ev, küf yapan oda",
+               "[[boya-badana-alci|Boya, badana ve alçı]]",
+               "[[anahtar-teslim-yenileme|Daireyi komple yenileme]]"]},
+    {"h": "Teklifi Nasıl Okumalısınız?",
+     "p": ["İyi bir teklifte üç şey açık olmalı:"],
+     "liste": ["**Kalemler:** \"Banyo yenileme — X TL\" değil; söküm, tesisat, yalıtım, seramik, "
+               "vitrifiye ayrı ayrı.",
+               "**Dahil ve hariçler:** malzeme kimden, moloz kimde, sonradan çıkacak işler nasıl "
+               "konuşulacak.",
+               "**Ödeme planı:** işin aşamalarına bağlı ödeme."],
+     "kutu": ("Dikkat", "İşin tamamının parasını en başta peşin istenmesine onay vermeyin. "
+              "Aşama bazlı ödeme hem sizi hem işi yapan ustayı korur.")},
+    {"h": "Kat İlavesi Düşünüyorsanız",
+     "p": ["En çok sorulan konulardan biri. Dürüst cevap: **her binaya kat çıkılmaz.** Mevcut "
+           "binanın taşıyıcı sisteminin ek yükü kaldırıp kaldırmadığına statik mühendis karar "
+           "verir, imar durumu da izin vermelidir. Ruhsatsız kat ilavesine girmiyoruz; hem "
+           "sizin hem binadaki herkesin güvenliği için."]},
+    {"h": "Apartmanda Tadilat Yaparken Komşular",
+     "p": ["Gürültülü işleri (kırım, delme) apartman yönetiminin uygun gördüğü saatlere "
+           "planlıyoruz, merdiven ve asansörü moloz taşırken koruyoruz. Cephe, çatı ya da "
+           "mantolama gibi ortak alan işlerinde ise yönetim kararı gerekiyor; teklifi toplantıya "
+           "sunulacak şekilde hazırlıyoruz."]},
+],
+"sss": [
+    ("Küçük işlere de geliyor musunuz?",
+     "Evet. Tek bir banyo, tek bir oda ya da çatıdaki bir akıntı için de arayabilirsiniz."),
+    ("Önce fotoğraf göndersem fikir verir misiniz?",
+     "Evet, WhatsApp'tan fotoğraf gönderirseniz kabaca fikir veriyoruz; kesin teklif yerinde "
+     "gördükten sonra çıkıyor."),
+    ("Malzemeyi ben seçebilir miyim?",
+     "Elbette. Seçim sizin; biz kullanım yerine uygun mu, onu söylüyoruz."),
+    ("Evde otururken iş yapılır mı?",
+     "Çoğu tadilatta evet. Komple yenilemede ise evin boş olmasını öneriyoruz."),
+],
+},
+
+"kamu-kurumlari-ve-devlet-projeleri": {
+"giris": [
+    "Kamu işinde inşaatın kendisi kadar **kağıt tarafı** da önemli: teknik şartname, birim "
+    "fiyat pozları, metraj, ataşman, hakediş, iş güvenliği evrakı.. Sahada ne kadar iyi iş "
+    "yaparsanız yapın, belgesi düzgün tutulmayan iş idareyle sorun yaşatır.",
+    "Biz Arslankaya İnşaat olarak kamu kurumlarına ait yapılarda yapım, onarım, bakım ve "
+    "yenileme işlerinde çalışıyoruz ve bu iki tarafı birlikte yürütmeye özen gösteriyoruz.",
+],
+"bolumler": [
+    {"h": "Kamu Yapılarında Hangi İşleri Yapıyoruz?",
+     "liste": ["Hizmet binalarında [[tadilat-tamirat|onarım ve tadilat]]",
+               "[[cati-izolasyon|Çatı yenileme]] ve su yalıtımı",
+               "[[mantolama-yalitim|Enerji verimliliği için mantolama]]",
+               "[[ic-dis-cephe|Cephe yenileme]] ve boya",
+               "[[kaba-insaat|Ek bina ve betonarme]] işler",
+               "İç mekân [[boya-badana-alci|boya-alçı]] ve [[seramik-fayans|zemin]] yenileme"]},
+    {"h": "Şartnameye Uygunluk ve Hakediş",
+     "p": ["İşe teknik şartnameyi ve keşif özetini satır satır okuyarak başlıyoruz; "
+           "şartnamede istenen malzeme ve uygulama dışına çıkılmıyor. Metraj ve ataşmanlar iş "
+           "sırasında düzenli tutuluyor; hakediş günü \"o duvarın ölçüsü neydi\" diye "
+           "aranmıyor :)",
+           "Sonradan kapanacak işlerin (yalıtım, donatı, tesisat altyapısı gibi) **kapanmadan "
+           "önce fotoğraflanması** bizim standart uygulamamız. Kontrol teşkilatı sorduğunda "
+           "gösterecek bir şeyiniz olur."],
+     "kutu": ("Önemli", "Kamu işlerinde iş artışı ya da değişiklik, idarenin yazılı onayı "
+              "olmadan yapılmamalı. Sahada \"şunu da yapıverelim\" denen her iş, hakedişte sorun "
+              "olarak geri döner.")},
+    {"h": "Kullanım Devam Ederken Çalışmak",
+     "p": ["Okul, sağlık tesisi ya da hizmet binası gibi yapılarda bina çoğu zaman tamamen "
+           "boşaltılamıyor. Bu yüzden çalışma alanını fiziksel olarak ayırıyor, toz ve gürültü "
+           "yapan işleri kullanımın en az olduğu saatlere ya da tatil dönemlerine planlıyoruz. "
+           "Kullanıcıların güvenli geçiş yolları iş başlamadan belirleniyor."]},
+],
+"sss": [
+    ("Kamu binalarında hangi işleri yapıyorsunuz?",
+     "Onarım, tadilat, çatı, mantolama, cephe, boya-alçı, zemin yenileme ve betonarme işler."),
+    ("Okul gibi binalarda iş ne zaman yapılır?",
+     "Mümkünse tatil dönemlerine planlanır; değilse çalışma alanı ayrılıp gürültülü işler "
+     "kullanımın az olduğu saatlere alınır."),
+    ("Metraj ve ataşmanları kim tutuyor?",
+     "İş sırasında düzenli olarak tutuyoruz; kapanacak imalatları kapanmadan fotoğraflıyoruz."),
+    ("Şartnamede olmayan bir iş çıkarsa?",
+     "İdareye bildiriliyor; yazılı onay gelmeden yapılmıyor."),
+],
+},
+
+"ticari-isletmeler-ve-is-yeri-insaatlari": {
+"giris": [
+    "Bir ev tadilatı birkaç gün uzarsa canınız sıkılır; bir dükkân tadilatı birkaç gün uzarsa "
+    "**kasanız** sıkılır.. Kira işliyor, personel bekliyor, müşteri kapıdan dönüyor.",
+    "Biz Arslankaya İnşaat olarak mağaza, ofis, restoran-kafe, atölye ve depo gibi iş "
+    "yerlerinde yapım ve yenileme yaparken takvimi **işletmenin çalışma düzenine göre** "
+    "kuruyoruz.",
+],
+"bolumler": [
+    {"h": "Hangi İş Yerlerinde Çalışıyoruz?",
+     "liste": ["Mağaza ve dükkânlar — vitrin, zemin, duvar, aydınlatma altyapısı",
+               "Ofisler — [[boya-badana-alci|alçıpan bölme]], asma tavan, zemin",
+               "Restoran ve kafeler — ıslak zemin, [[seramik-fayans|kaymaz seramik]], mutfak alanı",
+               "Atölye ve depolar — zemin betonu, duvar, [[cati-izolasyon|çatı]]",
+               "Komple iş yeri yenileme — bkz. [[anahtar-teslim-yenileme|anahtar teslim yenileme]]"]},
+    {"h": "Dükkânı Kapatmadan Tadilat Mümkün mü?",
+     "p": ["Her işte değil ama çoğu işte kısmen evet. Kullandığımız yöntemler:"],
+     "liste": ["**Mesai dışı çalışma:** gürültülü ve tozlu işler kapanıştan sonra ya da hafta sonu.",
+               "**Bölüm bölüm ilerleme:** mağazanın yarısı açıkken diğer yarısında çalışmak.",
+               "**Toz ayırma:** çalışılan alanı perdeyle kapatıp her gün temizleyip teslim etmek."],
+     "son": ["Hangisinin uygun olduğu işin türüne ve mekânın düzenine bağlı; keşifte bunu açık "
+             "açık konuşuyoruz. \"Hiç kapanmadan olur\" deyip sonra iki hafta kapattıran usta "
+             "olmak istemiyoruz :)"]},
+    {"h": "Açılış Tarihinden Geriye Planlama",
+     "p": ["Yeni bir iş yeri açıyorsanız tarih genelde baştan belli: kira başlıyor, tabela "
+           "sipariş edilmiş, açılış duyurulmuş. Biz de takvimi o tarihten geriye doğru kuruyoruz. "
+           "Mobilya, tabela, mutfak ekipmanı gibi dış tedarikçilerin ne zaman sahaya gireceği de "
+           "bu takvimin parçası."],
+     "kutu": ("Tavsiyemiz", "İş yeri ruhsatı ve denetimlerde mekânda aranan şartlar (yangın, "
+              "havalandırma, engelli erişimi gibi) işin türüne ve belediyeye göre değişir. "
+              "Tadilata başlamadan bunları netleştirin; bittikten sonra duvar açmak her zaman "
+              "daha pahalıdır.")},
+],
+"sss": [
+    ("İş yeri yenilemede dükkân kapalı kalmak zorunda mı?",
+     "Her işte değil. Bazı işleri mesai dışına ya da bölüm bölüm planlayabiliyoruz."),
+    ("Gece ya da hafta sonu çalışıyor musunuz?",
+     "İşin türüne ve binanın kurallarına göre mesai dışı çalışmayı planlayabiliyoruz."),
+    ("Kiralık dükkânda tadilat yapılır mı?",
+     "Evet; ama kalıcı değişiklikler için mülk sahibinin onayını almanızı öneririz."),
+    ("Teklifi ne kadar sürede veriyorsunuz?",
+     "Keşiften sonra iş kalemleri netleşince yazılı teklif hazırlıyoruz."),
+],
+},
+
+"toplu-konut-ve-buyuk-olcekli-projeler": {
+"giris": [
+    "Tek bir binada iyi iş çıkarmak bir şey; on blokta, yüzlerce dairede **aynı kaliteyi** "
+    "tutturmak bambaşka bir şey. Büyük projede asıl zorluk tekrar eden işin bir yerde "
+    "gevşemesi.. Üçüncü blokta özenle yapılan köşe, yedinci blokta aceleye gelebiliyor.",
+    "Biz Arslankaya İnşaat olarak toplu konut ve büyük ölçekli projelerde kaba ve ince iş "
+    "kalemlerinde çalışırken bu gevşemeyi önleyecek bir düzenle ilerliyoruz.",
+],
+"bolumler": [
+    {"h": "Hangi Kalemlerde Çalışıyoruz?",
+     "liste": ["[[kaba-insaat|Kaba inşaat]] ve [[beton-kalip-demir|kalıp-demir-beton]]",
+               "[[duvar-siva|Duvar ve sıva]]", "[[mantolama-yalitim|Mantolama]] ve [[ic-dis-cephe|cephe]]",
+               "[[ince-insaat|İnce işler]]: şap, alçı, boya, seramik"]},
+    {"h": "Önce Numune, Sonra Seri Uygulama",
+     "p": ["Büyük projelerde işe **numune uygulamayla** başlamayı öneriyoruz: bir daire, bir "
+           "cephe parçası ya da bir kat bütün detaylarıyla bitiriliyor, işveren ve kontrol "
+           "ekibiyle birlikte onaylanıyor. Sonraki her uygulama o numuneye göre yapılıyor ve "
+           "ona göre kontrol ediliyor.",
+           "Böylece \"bu köşe nasıl dönülecekti\", \"süpürgelik nereye kadar\" gibi sorular "
+           "her blokta yeniden tartışılmıyor."],
+     "kutu": ("Önemli", "Numune onayını yazılı alın ve fotoğraflarıyla saklayın. Büyük projede "
+              "en değerli belge, herkesin üzerinde anlaştığı o ilk örnektir.")},
+    {"h": "Blok Blok Kontrol Listesi",
+     "p": ["Her iş kalemi için kısa bir kontrol listesi kullanıyoruz: ölçü, şakul, yalıtım "
+           "detayları, temizlik. Bir blok bu listeden geçmeden \"bitti\" sayılmıyor. Eksikler "
+           "listede kalıyor, ekip bir sonraki bloğa geçmeden kapatılıyor."]},
+    {"h": "Malzeme, Hava ve Takvim",
+     "p": ["Bartın'ın yağışlı ikliminde büyük şantiyenin derdi sadece beton günü değil; "
+           "sahada bekleyen malzeme de. Çimento, alçı, yalıtım levhası gibi malzemelerin "
+           "**yağmurdan korunacağı stok alanı** ve sevkiyatların iş sırasına göre gelmesi "
+           "takvimin bir parçası. Paralel bloklarda da ekipler, bir blok havaya takıldığında "
+           "diğerinde çalışabilecek şekilde planlanıyor."]},
+],
+"sss": [
+    ("Büyük projelerde hangi kalemleri alıyorsunuz?",
+     "Kaba inşaat, kalıp-demir-beton, duvar-sıva, mantolama-cephe ve ince işler."),
+    ("Numune uygulama neden önemli?",
+     "Tekrar eden işte kaliteyi sabitlemenin en sağlam yolu; her blok aynı örneğe göre yapılıp "
+     "kontrol ediliyor."),
+    ("Kaç blok aynı anda yürütülebilir?",
+     "İşin kalemine ve takvime göre değişiyor; keşifte ekip planını açıkça konuşuyoruz."),
+    ("Hava koşulları takvimi nasıl etkiliyor?",
+     "Yağışlı günleri programa pay olarak koyuyor, malzemeyi korunaklı stokluyor ve paralel "
+     "bloklarda iş kaydırarak kaybı azaltıyoruz."),
+],
+},
+}

@@ -534,3 +534,25 @@ HIZMET_GORSEL = {
     "anahtar-teslim-yenileme": ("anahtar-teslim-yenileme",
         "Anahtar demeti yanında duran iki katlı ev maketi", (.5, .5)),
 }
+
+# ── Çalışma alanı stok görselleri (2026-10-20) ──────────────────────────────
+# Kaynak: Unsplash (images.unsplash.com — ücretsiz Unsplash Lisansı: ticari kullanım serbest,
+# atıf zorunlu değil; Unsplash+ (plus.unsplash.com) KULLANILMADI). Kaynak dosyalar img/stok/.
+# slug → [(kaynak adı, alt, unsplash id)] ; ilki hero arka planı, ikincisi gövde görseli.
+ALAN_GORSEL = {
+    "muteahhitlere-ozel-insaat-hizmetleri": [
+        ("muteahhit-1", "İskeleli şantiyede baretli iki mühendisin plan üzerinden iş konuşması", "1591588582259-e675bd2e6088"),
+        ("muteahhit-2", "Kuşbakışı şantiye: döşeme üzerinde demir donatı bağlayan baretli işçiler", "1504307651254-35680f356dfd")],
+    "bireysel-musterilere-ozel-hizmetler": [
+        ("bireysel-1", "Tadilat sürerken naylonla korunan beyaz dolaplı mutfak", "1618832515490-e181c4794a45"),
+        ("bireysel-2", "Tavanı dikmelerle desteklenmiş, zemini sökülmüş yenilenen oda", "1634586648651-f1fb9ec10d90")],
+    "kamu-kurumlari-ve-devlet-projeleri": [
+        ("kamu-1", "Geniş betonarme döşeme üzerinde yelekli ve baretli proje ekibi", "1541888946425-d81bb19240f5"),
+        ("kamu-2", "Demir donatı üzerine beton döken baretli iki işçi", "1774931363306-5a896cd4dd02")],
+    "ticari-isletmeler-ve-is-yeri-insaatlari": [
+        ("ticari-1", "Duvarları açılmış, yenileme sürecindeki iş yeri iç mekânı", "1517581177682-a085bb7ffb15"),
+        ("ticari-2", "Yenilemesi tamamlanmış asma tavanlı aydınlık açık ofis", "1577412647305-991150c7d163")],
+    "toplu-konut-ve-buyuk-olcekli-projeler": [
+        ("toplu-konut-1", "Yüksek katlı blokların arasında yükselen kule vinçler", "1599707254554-027aeb4deacd"),
+        ("toplu-konut-2", "Betonarme karkası tamamlanmış çok katlı konut bloğu", "1508450859948-4e04fabaa4ea")],
+}

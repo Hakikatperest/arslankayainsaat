@@ -64,6 +64,16 @@ for r in REF:
 for f in os.listdir(ref_dizin):
     if f not in gecerli: os.remove(os.path.join(ref_dizin, f))
 
+# ── Çalışma alanı stok görselleri (img/stok/*.jpg) → bartin-<ad>-{500,900,1600}.webp ──
+for _slug, liste in D.ALAN_GORSEL.items():
+    for kaynak_ad, _alt, _uid in liste:
+        im = Image.open(os.path.join(KOK, "img", "stok", kaynak_ad + ".jpg")).convert("RGB")
+        for w in (500, 900, 1600):
+            if w > im.width: continue
+            os.makedirs(os.path.join(KOK, "images", f"w{w}"), exist_ok=True)
+            (im if im.width == w else im.resize((w, round(im.height * w / im.width)), Image.LANCZOS)).save(
+                os.path.join(KOK, "images", f"w{w}", f"bartin-{kaynak_ad}.webp"), quality=78, method=6)
+
 # Paylaşım görseli: genel marka görseli (hizmet listeli afiş değil). JPEG (bazı uygulamalar WebP og:image'ı göstermiyor), 1200 genişlik
 im = Image.open(os.path.join(KOK, "img", "arslankaya-insaat.webp")).convert("RGB")
 im.resize((1200, round(im.height * 1200 / im.width)), Image.LANCZOS).save(

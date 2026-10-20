@@ -1469,3 +1469,19 @@ html.isik-kilit{overflow:hidden}
 .sa-wa .sa-ik svg{width:23px; height:23px}
 @media (max-width:380px){.sa{padding:6px 8px 6px 6px; gap:7px} .sa-ik{width:28px; height:28px} .sa-yz{font-size:.78rem}}
 @media (max-width:340px){.sa-tel .sa-ik{display:none}}
+
+/* İç sayfa hero'su: sabit fotoğraf arka planı (animasyon yok) */
+.hero-sabit .hero-fon-kat{inset:0; transform:none; transition:none}
+.hero-sabit .hero-fon-kat img{object-fit:cover; width:100%; height:100%; max-width:none}
+.hero-sabit::after{display:none}
+.hero-sabit .hero-metin{position:relative; z-index:2}
+/* Gövde içi fotoğraf */
+.govde-gorsel{margin:22px 0 8px}
+.govde-gorsel a{display:block; border-radius:var(--r); overflow:hidden; box-shadow:var(--golge)}
+.govde-gorsel img{display:block; width:100%; aspect-ratio:16/10; object-fit:cover}
+/* Çalışma alanları listesi: kart üstü fotoğraf */
+.alan-kart{overflow:hidden; padding-top:0}
+.alan-foto{display:block; margin:0 -21px 14px; aspect-ratio:16/9; overflow:hidden; background:var(--ak-3)}
+.alan-foto img{width:100%; height:100%; object-fit:cover; display:block; transition:transform .5s}
+.alan-kart:hover .alan-foto img{transform:scale(1.04)}
+.alan-foto + .alan-ik{margin-top:-44px; position:relative; background:#fff; box-shadow:0 6px 16px rgba(16,20,26,.15)}
