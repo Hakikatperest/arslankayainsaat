@@ -140,7 +140,9 @@ def hero_gorsel():
     ⚠️ LCP adayı: eager + fetchpriority=high, KIRPMA YOK (görselde yazı + telefon var)."""
     g = gorsel("arslankaya-insaat", TANITIM_ALT,
                boy="(min-width:1000px) 560px, calc(100vw - 32px)")
-    return f'<a class="hero-gorsel-kutu" href="tel:{S["tel_link"]}" aria-label="{e(S["marka"])} — hemen ara: {e(S["tel"])}">{g}</a>' if g else ""
+    # 2026-10-20 kullanıcı: tıklanınca BÜYÜSÜN (eskiden tel: idi). JS yoksa büyük görsel açılır.
+    return (f'<a class="hero-gorsel-kutu" href="/images/w1600/arslankaya-insaat.webp" data-buyut '
+            f'aria-label="Tanıtım görselini büyüt">{g}</a>') if g else ""
 
 def afis_bolum(baslik="Hizmetlerimiz Bir Bakışta", giris=None, taban="arslankaya-insaat-hizmet"):
     """Kullanıcının 2026-10-20'de verdiği tanıtım afişi (img/arslankaya-insaat-hizmet.webp).
@@ -154,7 +156,7 @@ def afis_bolum(baslik="Hizmetlerimiz Bir Bakışta", giris=None, taban="arslanka
     gr = f'<p class="giris">{e(giris)}</p>' if giris else ""
     return f"""<section class="bol afis"><div class="kap">
   <div class="bol-bas"><h2>{e(baslik)}</h2>{gr}</div>
-  <a class="afis-kutu" href="tel:{S['tel_link']}" aria-label="{e(S['marka'])} — hemen ara: {e(S['tel'])}">{g}</a>
+  <a class="afis-kutu" href="/images/w1600/{taban}.webp" data-buyut aria-label="Görseli büyüt">{g}</a>
   <div class="dg-grup afis-dg">{tel_btn()}{tel2_btn("dg dg-hat2")}{wa_btn()}</div>
 </div></section>"""
 
@@ -571,7 +573,7 @@ def referans_kart(r, baslik_etiketi="h3"):
     acik = "".join(f"<p>{e(p)}</p>" for p in r["aciklama"].split("\n") if p.strip())
     rozet = f'<a class="ref-rozet" href="/{hz["slug"]}/">{e(hz["ad"])}</a>' if hz else ""
     return (f'<article class="ref-kart gel"><a class="ref-gorsel" href="/images/referans/{ad}-1600.webp" '
-            f'target="_blank" rel="noopener" aria-label="{e(r["firma"])} görselini büyüt">{img}</a>'
+            f'data-buyut aria-label="{e(r["firma"])} görselini büyüt">{img}</a>'
             f'<div class="ref-ic">{rozet}<{baslik_etiketi}>{e(r["firma"])}</{baslik_etiketi}>{acik}</div></article>')
 
 def referans_bolum(baslik, liste, giris=None, tumu=True):

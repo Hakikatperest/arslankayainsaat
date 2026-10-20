@@ -1428,3 +1428,19 @@ body.kaydi .logo-im{transform:scale(.9); transform-origin:left center}
 .sa-wa .sa-yz{white-space:nowrap; font-size:.74rem; text-align:center}
 .sa-wa .sa-ik{width:28px; height:28px}
 @media (max-width:340px){.sa-wa .sa-ik{display:grid}}
+
+/* Işık kutusu */
+.isik{position:fixed; inset:0; z-index:200; display:flex; align-items:center; justify-content:center;
+  padding:max(16px,env(safe-area-inset-top)) 16px max(16px,env(safe-area-inset-bottom));
+  background:rgba(8,10,14,.92); opacity:0; visibility:hidden; transition:opacity .22s, visibility 0s .22s; cursor:zoom-out}
+.isik.acik{opacity:1; visibility:visible; transition:opacity .22s}
+.isik img{max-width:min(1600px,100%); max-height:100%; width:auto; height:auto; border-radius:10px;
+  box-shadow:0 20px 60px rgba(0,0,0,.6); transform:scale(.96); transition:transform .25s cubic-bezier(.2,.7,.3,1); cursor:default}
+.isik.acik img{transform:none}
+.isik-kapat{position:absolute; top:max(12px,env(safe-area-inset-top)); right:12px; width:46px; height:46px;
+  border-radius:50%; border:1px solid rgba(255,255,255,.3); background:rgba(255,255,255,.12); color:#fff;
+  font-size:30px; line-height:1; cursor:pointer}
+.isik-kapat:hover{background:rgba(255,255,255,.22)}
+html.isik-kilit{overflow:hidden}
+[data-buyut]{cursor:zoom-in}
+@media (prefers-reduced-motion:reduce){.isik,.isik img{transition:none}}
