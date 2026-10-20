@@ -40,6 +40,29 @@ for slug, (kaynak_ad, _alt, (ox, oy)) in D.HIZMET_GORSEL.items():
         os.makedirs(os.path.join(KOK, "images", f"w{w}"), exist_ok=True)
         hedef.save(os.path.join(KOK, "images", f"w{w}", ad + ".webp"), quality=80, method=6)
 
+# ── Referans görselleri (panelden gelir: img/referans/<id>.webp) ────────────
+# Yayın adı firma adından + id: bartin-<firma>-<id>-{480,900,1600}.webp. Eskiler silinir.
+import json
+from build_ortak import referans_dosya_adi
+REF = json.load(open(os.path.join(KOK, "_src", "referanslar.json"), encoding="utf-8"))
+ref_dizin = os.path.join(KOK, "images", "referans")
+os.makedirs(ref_dizin, exist_ok=True)
+gecerli = set()
+for r in REF:
+    kaynak = os.path.join(KOK, "img", "referans", r["id"] + ".webp")
+    if not os.path.exists(kaynak): continue
+    ad = referans_dosya_adi(r)
+    im = None
+    for w in (480, 900, 1600):
+        hedef = os.path.join(ref_dizin, f"{ad}-{w}.webp")
+        gecerli.add(os.path.basename(hedef))
+        if os.path.exists(hedef) and os.path.getmtime(hedef) >= os.path.getmtime(kaynak): continue
+        im = im or Image.open(kaynak).convert("RGB")
+        t = im if im.width <= w else im.resize((w, round(im.height * w / im.width)), Image.LANCZOS)
+        t.save(hedef, quality=80, method=6)
+for f in os.listdir(ref_dizin):
+    if f not in gecerli: os.remove(os.path.join(ref_dizin, f))
+
 # Paylaşım görseli: genel marka görseli (hizmet listeli afiş değil). JPEG (bazı uygulamalar WebP og:image'ı göstermiyor), 1200 genişlik
 im = Image.open(os.path.join(KOK, "img", "arslankaya-insaat.webp")).convert("RGB")
 im.resize((1200, round(im.height * 1200 / im.width)), Image.LANCZOS).save(

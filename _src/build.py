@@ -15,6 +15,12 @@ KOK = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import data as D
 import icerik as I
+from build_ortak import referans_dosya_adi, sluglastir
+
+# Panelden gelen referanslar (_src/referans_al.py yazar). Yalnız "Sitede göster" işaretliler.
+REF = [r for r in json.load(open(os.path.join(KOK, "_src", "referanslar.json"), encoding="utf-8"))
+       if r.get("gorunur") and os.path.exists(os.path.join(KOK, "images", "referans",
+                                                          referans_dosya_adi(r) + "-480.webp"))]
 
 S = D.SITE
 ALAN = S["alan"]
@@ -169,7 +175,7 @@ def logo(koyu_zemin=False, buyuk=False):
 MENU = [
     ("/", "Ana Sayfa"),
     ("/hakkimizda/", "Hakkımızda"),
-    ("/hizmetlerimiz/", "Hizmetlerimiz"),
+    ("/referanslarimiz/", "Referanslarımız"),   # 2026-10-20: Hizmetlerimiz yerine (sayfa duruyor, alt bilgide)
     ("/calisma-alanlari/", "Çalışma Alanları"),
     ("/iletisim/", "İletişim"),
 ]
@@ -532,6 +538,7 @@ def anasayfa():
 {hizmet_kartlari("Hizmetlerimiz", giris="Anahtar teslim inşaatın her aşamasını kendi ekibimizle yapıyoruz.")}
 {afis_bolum(giris="Temelden çatıya bütün hizmetlerimiz ve çalışma alanlarımız tek görselde.")}
 {bolunmus_bolum()}
+{referans_bolum("Referanslarımız", REF[:6], giris="Bartın'da tamamladığımız işlerden bazıları.")}
 {surec_bolum()}
 {sss_bolum(D.ANA_SSS)}
 {cta_band("İşinizi yerinde görelim", "Ne yaptırmak istediğinizi anlatın; keşif gününü birlikte belirleyelim.")}
@@ -547,6 +554,61 @@ def metin(t):
 def duz(t):
     """Şema/meta için işaretsiz düz metin."""
     return re.sub(r"\[\[[a-z0-9-]+\|(.+?)\]\]", r"\1", t.replace("**", ""))
+
+# ── Referanslar ─────────────────────────────────────────────────────────────
+def referans_kart(r, baslik_etiketi="h3"):
+    """⚠️ Metin panelden gelir → e() ile kaçışlanır. Açıklamadaki satır sonları paragraf olur.
+    Görselin tamamı büyük boyuta bağlantı (yeni sekme). Yorum/puan şeması YOK (gerçek değerlendirme değil)."""
+    ad = referans_dosya_adi(r)
+    alt = f'{r["firma"]} — Arslankaya İnşaat referans çalışması'
+    hz = HIZ.get(r.get("hizmet") or "")
+    if hz:
+        alt = f'{r["firma"]} — {hz["ad"]}, Arslankaya İnşaat referans çalışması'
+    img = (f'<img src="/images/referans/{ad}-900.webp" '
+           f'srcset="/images/referans/{ad}-480.webp 480w, /images/referans/{ad}-900.webp 900w, '
+           f'/images/referans/{ad}-1600.webp 1600w" sizes="(min-width:1000px) 380px, (min-width:640px) 50vw, 100vw" '
+           f'alt="{e(alt)}" loading="lazy" decoding="async">')
+    acik = "".join(f"<p>{e(p)}</p>" for p in r["aciklama"].split("\n") if p.strip())
+    rozet = f'<a class="ref-rozet" href="/{hz["slug"]}/">{e(hz["ad"])}</a>' if hz else ""
+    return (f'<article class="ref-kart gel"><a class="ref-gorsel" href="/images/referans/{ad}-1600.webp" '
+            f'target="_blank" rel="noopener" aria-label="{e(r["firma"])} görselini büyüt">{img}</a>'
+            f'<div class="ref-ic">{rozet}<{baslik_etiketi}>{e(r["firma"])}</{baslik_etiketi}>{acik}</div></article>')
+
+def referans_bolum(baslik, liste, giris=None, tumu=True):
+    if not liste:
+        return ""
+    gr = f'<p class="giris">{e(giris)}</p>' if giris else ""
+    dg = ('<div class="ref-tumu"><a class="dg dg-sari" href="/referanslarimiz/"><span>Tüm referanslarımız</span></a></div>'
+          if tumu and len(REF) > len(liste) else "")
+    return (f'<section class="bol referanslar"><div class="kap"><div class="bol-bas"><h2>{e(baslik)}</h2>{gr}</div>'
+            f'<div class="ref-izgara">{"".join(referans_kart(r) for r in liste)}</div>{dg}</div></section>')
+
+def referanslar_sayfasi():
+    yol = "/referanslarimiz/"
+    baslik = f'Referanslarımız | {S["marka"]} Bartın'
+    aciklama = ("Arslankaya İnşaat'ın Bartın'da tamamladığı işlerden örnekler: inşaat, tadilat, çatı, "
+                "mantolama, cephe ve anahtar teslim yenileme çalışmalarımız.")
+    if REF:
+        ic = (f'<section class="bol referanslar"><div class="kap">'
+              f'<div class="ref-izgara">{"".join(referans_kart(r, "h2") for r in REF)}</div></div></section>')
+        robots = ""
+        sema = ldj({"@context": "https://schema.org", "@type": "CollectionPage", "url": ALAN + yol,
+                    "name": "Referanslarımız", "about": {"@id": ALAN + "/#isletme"}})
+    else:
+        # ⚠️ Boş sayfa ince içerik → indekslenmez, sitemap'e girmez (main()).
+        ic = ('<section class="bol"><div class="kap dar metin"><h2>Referanslarımızı yakında burada paylaşacağız</h2>'
+              '<p>Tamamladığımız işlerin fotoğraflarını bu sayfaya ekliyoruz. O zamana kadar işinizi '
+              'yerinde görmek ve size yazılı teklif vermek için bizi arayabilirsiniz.</p></div></section>')
+        robots = '<meta name="robots" content="noindex,follow">\n'
+        sema = ""
+    return head(baslik, aciklama, yol, robots + sema) + ust_header(yol) + f"""
+<main id="ana">
+{kirinti([("Ana Sayfa", "/"), ("Referanslarımız", None)])}
+{hero_ic("Arslankaya İnşaat", ["Referanslarımız"], "Bartın'da yaptığımız işlerden örnekler. Görsele tıklayarak büyütebilirsiniz.")}
+{ic}
+{cta_band("Sıradaki iş sizinki olsun", "İşinizi anlatın; yerinde keşif için uygun günü birlikte belirleyelim.")}
+</main>
+{alt_bilgi()}"""
 
 def kimlik(baslik):
     k = kucuk(baslik)
@@ -602,6 +664,7 @@ def hizmet_sayfasi(h):
   {"".join(govde)}
   {alan_p}
 </div></section>
+{referans_bolum(h["ad"] + " Referanslarımız", [r for r in REF if r.get("hizmet") == h["slug"]][:6])}
 {hizmet_kartlari("İlgili Hizmetler", liste=ilgili)}
 {sss_bolum(ic["sss"], h["ad"] + " Hakkında Sık Sorulanlar")}
 {cta_band(h["ad"] + " için yerinde keşif", "İşi anlatın, uygun günü birlikte belirleyelim. Teklifi kalem kalem yazılı veriyoruz.", kucuk(h["ad"]))}
@@ -776,6 +839,9 @@ def main():
         yaz(f'/{h["slug"]}/', hizmet_sayfasi(h)); yollar.append((f'/{h["slug"]}/', "0.9"))
     for a in D.ALANLAR:
         yaz(f'/{a["slug"]}/', alan_sayfasi(a)); yollar.append((f'/{a["slug"]}/', "0.7"))
+    yaz("/referanslarimiz/", referanslar_sayfasi())
+    if REF:
+        yollar.append(("/referanslarimiz/", "0.8"))
     for yol, f, p in (("/hizmetlerimiz/", hizmetler_sayfasi, "0.9"),
                       ("/calisma-alanlari/", alanlar_sayfasi, "0.7"),
                       ("/hakkimizda/", hakkimizda_sayfasi, "0.6"),
@@ -789,6 +855,9 @@ def main():
     for y, p in yollar:
         gor = "".join(f"<image:image><image:loc>{ALAN}/images/w1600/{t}.webp</image:loc></image:image>"
                       for t in SAYFA_GORSEL.get(y, []))
+        if y == "/referanslarimiz/":
+            gor += "".join(f"<image:image><image:loc>{ALAN}/images/referans/{referans_dosya_adi(r)}-1600.webp"
+                           f"</image:loc></image:image>" for r in REF)
         sm.append(f"  <url><loc>{ALAN}{y}</loc><priority>{p}</priority>{gor}</url>")
     sm.append("</urlset>")
     open(os.path.join(KOK, "sitemap.xml"), "w", encoding="utf-8").write("\n".join(sm) + "\n")
