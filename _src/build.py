@@ -322,9 +322,9 @@ def alt_bilgi():
   </div>
 </footer>
 <nav class="sabit-ara" aria-label="Hızlı iletişim">
-  <a class="sa sa-tel" href="tel:{S['tel_link']}" aria-label="{e(S['tel_kisi'])} — ara"><span class="sa-ik">{svg_tel()}</span><span class="sa-yz"><small>Ara</small>{e(S["tel_kisi"])}</span></a>
-  <a class="sa sa-tel" href="tel:{S['tel2_link']}" aria-label="{e(S['tel2_kisi'])} — ara"><span class="sa-ik">{svg_tel()}</span><span class="sa-yz"><small>Ara</small>{e(S["tel2_kisi"])}</span></a>
-  <a class="sa sa-wa" href="{wa_link()}" target="_blank" rel="noopener"><span class="sa-ik">{svg_wa()}</span><span class="sa-yz">WhatsApp</span></a>
+  <a class="sa sa-tel" href="tel:{S['tel_link']}" aria-label="{e(S['tel_kisi'])} — ara"><span class="sa-ik">{svg_tel()}</span><span class="sa-yz"><b>{e(S['tel_kisi'].split(' ', 1)[0])}</b><small>{e(S['tel_kisi'].split(' ', 1)[-1])}</small></span></a>
+  <a class="sa sa-tel" href="tel:{S['tel2_link']}" aria-label="{e(S['tel2_kisi'])} — ara"><span class="sa-ik">{svg_tel()}</span><span class="sa-yz"><b>{e(S['tel2_kisi'].split(' ', 1)[0])}</b><small>{e(S['tel2_kisi'].split(' ', 1)[-1])}</small></span></a>
+  <a class="sa sa-wa" href="{wa_link()}" target="_blank" rel="noopener" aria-label="WhatsApp'tan yazın"><span class="sa-ik">{svg_wa()}</span></a>
 </nav>
 <script src="{surum('/assets/app.js')}" defer></script>
 </body>

@@ -1444,3 +1444,28 @@ body.kaydi .logo-im{transform:scale(.9); transform-origin:left center}
 html.isik-kilit{overflow:hidden}
 [data-buyut]{cursor:zoom-in}
 @media (prefers-reduced-motion:reduce){.isik,.isik img{transition:none}}
+
+/* ── Sabit alt çubuk v3: zarif (kullanıcı "çok kaba" dedi, 2026-10-20) ──────────
+   46px yükseklik, ince 3px kalınlık kenarı, hafif parlama; WhatsApp yalnız yuvarlak ikon. */
+.sabit-ara{gap:8px; padding:8px 10px calc(8px + env(safe-area-inset-bottom));
+  background:rgba(15,18,26,.94); border-top:1px solid rgba(255,255,255,.08); box-shadow:0 -6px 20px rgba(0,0,0,.25)}
+.sa{min-height:46px; gap:9px; padding:6px 12px 6px 7px; border-radius:13px; border:0}
+.sa::before{inset:0 0 55% 0; border-radius:13px 13px 0 0;
+  background:linear-gradient(180deg,rgba(255,255,255,.18),rgba(255,255,255,0))}
+.sa-tel{flex:1; background:linear-gradient(180deg,#3a87fb 0%,#1f66e5 100%);
+  box-shadow:0 3px 0 #1048b4, 0 6px 14px rgba(22,88,214,.32), inset 0 1px 0 rgba(255,255,255,.35)}
+.sa-tel:active{transform:translateY(2px); box-shadow:0 1px 0 #1048b4, 0 3px 8px rgba(22,88,214,.28), inset 0 1px 0 rgba(255,255,255,.3)}
+.sa-ik{width:32px; height:32px; background:rgba(255,255,255,.18); box-shadow:inset 0 1px 0 rgba(255,255,255,.35)}
+.sa-ik svg{width:16px; height:16px; filter:none}
+.sa-yz{font-size:.84rem; line-height:1.15; text-shadow:none; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.sa-yz b{font-weight:800}
+.sa-yz small{font-size:.7rem; font-weight:500; opacity:.82; letter-spacing:0; text-transform:none}
+.sa-wa{flex:0 0 46px; min-width:0; width:46px; padding:0; border-radius:50%; justify-content:center;
+  background:linear-gradient(180deg,#34dd7b 0%,#1db954 100%);
+  box-shadow:0 3px 0 #0f8a3d, 0 6px 14px rgba(29,185,84,.32), inset 0 1px 0 rgba(255,255,255,.35)}
+.sa-wa::before{border-radius:50% 50% 0 0}
+.sa-wa:active{transform:translateY(2px); box-shadow:0 1px 0 #0f8a3d, 0 3px 8px rgba(29,185,84,.28)}
+.sa-wa .sa-ik{width:auto; height:auto; background:none; box-shadow:none}
+.sa-wa .sa-ik svg{width:23px; height:23px}
+@media (max-width:380px){.sa{padding:6px 8px 6px 6px; gap:7px} .sa-ik{width:28px; height:28px} .sa-yz{font-size:.78rem}}
+@media (max-width:340px){.sa-tel .sa-ik{display:none}}
