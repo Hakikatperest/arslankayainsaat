@@ -1,0 +1,1282 @@
+/* arslankayainsaat.com — tema: logo turuncusu #EF5A0A + logo koyusu #171A22 (dehaiskele CSS tabanı)
+   ⛔ Bu dosya elle düzenlenir (build.py üretmez) ama adresi build.surum() ile
+      ?v=md5 damgalanır: damga olmadan GitHub Pages max-age=600 yüzünden
+      düzeltmeler ziyaretçiye 10 dakika ULAŞMIYOR. */
+
+@font-face{
+  font-family:'Jakarta'; font-style:normal; font-weight:200 800; font-display:swap;
+  src:url(/assets/fonts/pjs-var-tr.woff2) format('woff2');
+}
+
+:root{
+  /* Kurumsal palet — turuncu ana, grafit taşıyıcı, amber vurgu.
+     Referans kurumsal düzenden ilham; tonlar Deha İskele'ye özgü tutuldu. */
+  /* ⚠️ Paletin tamamı MARKA LOGOSUNDAN örneklendi (images/deha-iskele-logo.png):
+     turuncu #FA6400 (iskele platformları + "İSKELE" yazısı),
+     çelik mavi-gri #4A5568 ("DEHA" metalik harfleri),
+     koyu #12151B (logo gölgeleri). ⛔ Bu tonları keyfî değiştirme. */
+  --koyu:#171a22; --koyu-2:#1e222c; --koyu-3:#2a2f3b;
+  --celik:#46536a; --celik-2:#5a6880; --celik-ak:#8a93a3;
+  --tur:#ef5a0a; --tur-2:#fb8a1a; --tur-koyu:#b8420a;
+  --sari:#ef5a0a; --sari-2:#fb8a1a; --sari-koyu:#b8420a;   /* eski adlar → marka turuncusuna */
+  --amber:#e0a526;
+  --ak:#ffffff; --ak-2:#f5f6f8; --ak-3:#e8ebef;
+  --ink:#161b22; --ink-2:#4a5566; --ink-3:#77839a;
+  --cizgi:rgba(255,255,255,.10); --cizgi-ak:#dfe3e9;
+  --w4-mavi:#4d90ff;          /* ⚠️ markanın #0B57D0'ı koyu zeminde okunmuyor */
+  --wa:#25d366;
+  --ust-h:88px;
+  --r:14px; --r-s:9px;
+  --golge:0 2px 6px rgba(10,14,20,.08), 0 12px 32px rgba(10,14,20,.10);
+  --golge-koyu:0 2px 8px rgba(0,0,0,.35), 0 18px 46px rgba(0,0,0,.32);
+  --kap:1180px;
+}
+
+*,*::before,*::after{box-sizing:border-box}
+/* ⚠️ overflow-x YALNIZCA html'de. body'ye de verilirse body kaydırma kabına
+   dönüşür → sticky üst bar ölür (berrak + taşdelen'de bu hata duruyor). */
+html{overflow-x:hidden; scroll-behavior:smooth; -webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--ak-2); color:var(--ink);
+  font:400 16px/1.7 'Jakarta',system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  letter-spacing:.005em;
+}
+img{max-width:100%; height:auto}
+picture{display:block}          /* ⚠️ varsayılan satır içi; yüzdelik yükseklik çözülmez */
+a{color:inherit}
+h1,h2,h3{line-height:1.22; letter-spacing:-.018em; margin:0 0 .6em}
+h1{font-size:clamp(1.9rem,4.6vw,3.1rem); font-weight:800}
+h2{font-size:clamp(1.35rem,2.6vw,1.95rem); font-weight:700}
+h3{font-size:1.08rem; font-weight:700}
+p{margin:0 0 1.05em}
+ul,ol{margin:0 0 1.1em; padding-left:1.15em}
+li{margin:.35em 0}
+
+.kap{width:min(100% - 34px,var(--kap)); margin-inline:auto}
+.kap.dar{max-width:820px}
+.atla{position:absolute; left:-9999px; background:var(--sari); color:#000; padding:10px 16px;
+  border-radius:0 0 var(--r-s) 0; z-index:200; font-weight:700}
+.atla:focus{left:0; top:0}
+:focus-visible{outline:3px solid var(--sari); outline-offset:2px; border-radius:4px}
+
+/* ── Üst bar ─────────────────────────────────────────────────────────────
+   ⚠️ HER durumda koyu cam zeminli. Şeffaf + JS ile koyulaşan varyant
+   seyrannakliyat'ta beyaz üzerine beyaz logo bıraktı; o desen kullanılmıyor. */
+.ust{position:sticky; top:0; z-index:90; background:rgba(18,22,28,.92);
+  backdrop-filter:blur(12px) saturate(1.3); border-bottom:1px solid var(--cizgi)}
+.ust-ic{display:flex; align-items:center; gap:18px; height:var(--ust-h)}
+.logo-bag{text-decoration:none; color:var(--ak); flex:none}
+.logo{display:inline-flex; align-items:center}
+/* ⚠️ Logo 1.45:1 oranında (kare-ye yakın): iskele kulesi dikey yer kaplıyor.
+   Yükseklik 60px'in altına inince "DEHA" yazısı okunmuyor, slogan satırı lekeye
+   dönüyor. Üst bar yüksekliği (--ust-h) buna göre 88px seçildi. ⛔ Küçültme. */
+.logo-im{display:block; width:auto; height:clamp(46px,5.4vw,62px); flex:none}
+.alt .logo-im{height:72px}
+.menu{display:flex; gap:4px; margin-left:6px}
+.menu a{padding:9px 13px; border-radius:999px; text-decoration:none; color:#c9d1dd;
+  font-size:.925rem; font-weight:600; transition:background .18s,color .18s}
+.menu a:hover{background:rgba(255,255,255,.07); color:var(--ak)}
+.menu a.aktif{color:var(--koyu); background:var(--sari)}
+.ust-ara{display:flex; align-items:center; gap:10px; margin-left:auto}
+.hamburger{display:none; width:44px; height:44px; border:1px solid var(--cizgi);
+  background:rgba(255,255,255,.05); border-radius:11px; cursor:pointer; padding:0;
+  flex-direction:column; justify-content:center; align-items:center; gap:5px}
+.hamburger span{display:block; width:19px; height:2px; background:var(--ak); border-radius:2px;
+  transition:transform .25s,opacity .2s}
+.hamburger[aria-expanded="true"] span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.hamburger[aria-expanded="true"] span:nth-child(2){opacity:0}
+.hamburger[aria-expanded="true"] span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+
+/* ── Düğmeler ─────────────────────────────────────────────────────────── */
+/* ── 3B düğmeler ──────────────────────────────────────────────────────────
+   Kabartma alt kenar + basılma. transform/box-shadow ile — düzen hesabı
+   tetiklenmiyor, animasyon GPU'da kalıyor. */
+.dg{display:inline-flex; align-items:center; justify-content:center; gap:9px;
+  padding:13px 24px; border-radius:12px; text-decoration:none; font-weight:700;
+  font-size:.98rem; border:1px solid transparent; cursor:pointer; position:relative;
+  transition:transform .16s cubic-bezier(.2,.7,.3,1), box-shadow .2s, background .2s,
+             border-color .2s}
+.dg:active{transform:translateY(1px) !important}
+.dg-sari{background:linear-gradient(178deg,var(--tur-2),var(--tur)); color:#fff;
+  box-shadow:0 2px 0 var(--tur-koyu), 0 8px 20px rgba(239,90,10,.34),
+             inset 0 1px 0 rgba(255,255,255,.28)}
+.dg-sari:hover{transform:translateY(-2px);
+  box-shadow:0 4px 0 var(--tur-koyu), 0 14px 30px rgba(239,90,10,.44),
+             inset 0 1px 0 rgba(255,255,255,.32)}
+.dg-sari:active{box-shadow:0 1px 0 var(--tur-koyu), 0 4px 12px rgba(239,90,10,.3)}
+.dg-teklif{background:linear-gradient(178deg,#2b3038,var(--koyu)); color:#fff;
+  padding:12px 22px;
+  box-shadow:0 2px 0 #000, 0 8px 20px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.1)}
+.dg-teklif:hover{transform:translateY(-2px);
+  box-shadow:0 4px 0 #000, 0 14px 28px rgba(0,0,0,.34), inset 0 1px 0 rgba(255,255,255,.14)}
+.dg-teklif svg{transition:transform .22s}
+.dg-teklif:hover svg{transform:translate(2px,-2px)}
+.dg-cerceve{background:rgba(255,255,255,.06); color:#fff; border:1.5px solid rgba(255,255,255,.5);
+  backdrop-filter:blur(4px)}
+.dg-cerceve:hover{transform:translateY(-2px); background:rgba(255,255,255,.13);
+  border-color:#fff}
+.dg-cerceve-ak{background:transparent; color:#fff; border:1.5px solid rgba(255,255,255,.45)}
+.dg-cerceve-ak:hover{transform:translateY(-2px); background:rgba(255,255,255,.1); border-color:#fff}
+.dg-wa{background:linear-gradient(178deg,#2ee06f,var(--wa)); color:#04351a;
+  box-shadow:0 2px 0 #14a04a, 0 8px 20px rgba(37,211,102,.3), inset 0 1px 0 rgba(255,255,255,.3)}
+.dg-wa:hover{transform:translateY(-2px);
+  box-shadow:0 4px 0 #14a04a, 0 14px 28px rgba(37,211,102,.38), inset 0 1px 0 rgba(255,255,255,.34)}
+.dg-kucuk{padding:9px 16px; font-size:.9rem}
+.dg-grup{display:flex; flex-wrap:wrap; gap:12px; margin-top:6px}
+
+/* ── Hero ─────────────────────────────────────────────────────────────── */
+.hero{position:relative; background:var(--koyu); color:var(--ak); overflow:hidden;
+  padding:clamp(52px,8vw,92px) 0 clamp(46px,7vw,78px)}
+.hero::before{content:""; position:absolute; inset:0;
+  background:
+    radial-gradient(900px 420px at 78% -8%,rgba(255,194,51,.16),transparent 62%),
+    radial-gradient(600px 340px at 6% 108%,rgba(255,194,51,.07),transparent 60%);
+  pointer-events:none}
+/* iskele kafes dokusu — kütüphane yok, saf CSS */
+.hero::after{content:""; position:absolute; inset:0; opacity:.16; pointer-events:none;
+  background-image:
+    linear-gradient(rgba(255,255,255,.16) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.16) 1px,transparent 1px);
+  background-size:76px 76px;
+  -webkit-mask-image:linear-gradient(180deg,#000,transparent 78%);
+  mask-image:linear-gradient(180deg,#000,transparent 78%)}
+.hero .kap{position:relative; z-index:1; max-width:900px}
+.hero-ust{text-transform:uppercase; letter-spacing:.2em; font-size:.735rem; font-weight:700;
+  color:var(--sari); margin:0 0 14px}
+.hero-alt{font-size:clamp(1.02rem,1.9vw,1.2rem); color:#c4cdd9; max-width:62ch; margin-bottom:22px}
+.hero-not{margin-top:18px; font-size:.87rem; color:#8e99a9}
+.hero-ic{padding:clamp(42px,6vw,68px) 0 clamp(34px,5vw,54px)}
+.hero-ic h1{font-size:clamp(1.72rem,3.9vw,2.65rem)}
+
+/* maskeli satır açılışı */
+.hb{margin-bottom:18px}
+.hb .l{display:block; overflow:hidden}
+.hb .l>span{display:block}
+html.js .hb .l>span{transform:translateY(105%); opacity:0}
+html.js .hb.ac .l>span{animation:hbAc .78s cubic-bezier(.2,.7,.25,1) forwards}
+html.js .hb.ac .l:nth-child(2)>span{animation-delay:.1s}
+html.js .hb.ac .l:nth-child(3)>span{animation-delay:.2s}
+@keyframes hbAc{to{transform:translateY(0); opacity:1}}
+
+/* ── Güven şeridi ─────────────────────────────────────────────────────── */
+.serit{background:var(--koyu-2); color:var(--ak); border-bottom:1px solid var(--cizgi)}
+.serit ul{display:grid; grid-template-columns:repeat(3,1fr); gap:18px; margin:0; padding:20px 0;
+  list-style:none}
+.serit li{display:flex; flex-direction:column; gap:2px; padding-left:15px; position:relative;
+  margin:0}
+.serit li::before{content:""; position:absolute; left:0; top:5px; bottom:5px; width:3px;
+  background:var(--sari); border-radius:3px}
+.serit strong{font-size:.98rem}
+.serit span{font-size:.855rem; color:#9aa5b4; line-height:1.5}
+
+/* ── Bölümler ─────────────────────────────────────────────────────────── */
+.bol{padding:clamp(40px,5.5vw,68px) 0}
+.bol .giris{color:var(--ink-2); max-width:66ch; margin-bottom:26px}
+.metin h2{margin-top:1.9em; padding-top:.15em}
+.metin h2:first-child{margin-top:0}
+.metin p,.metin li{color:#2c3543}
+.metin a{color:#b8420a; text-decoration-color:rgba(239,90,10,.45); text-underline-offset:3px;
+  font-weight:600}
+.metin a:hover{color:#8f3307}
+.ok-liste{list-style:none; padding:0}
+.ok-liste li{position:relative; padding-left:27px; margin:.6em 0}
+.ok-liste li::before{content:""; position:absolute; left:2px; top:.62em; width:9px; height:9px;
+  border-right:2.4px solid var(--sari-koyu); border-bottom:2.4px solid var(--sari-koyu);
+  transform:rotate(-45deg)}
+.adim{list-style:none; counter-reset:a; padding:0}
+.adim li{counter-increment:a; position:relative; padding-left:46px; margin:1em 0}
+.adim li::before{content:counter(a); position:absolute; left:0; top:-1px; width:31px; height:31px;
+  display:grid; place-items:center; background:var(--koyu); color:var(--sari);
+  border-radius:9px; font-weight:800; font-size:.92rem}
+
+/* kartlar */
+.izgara{display:grid; grid-template-columns:repeat(auto-fit,minmax(268px,1fr)); gap:16px}
+.kart{display:block; background:var(--ak); border:1px solid var(--cizgi-ak); border-radius:var(--r);
+  padding:22px 21px 19px; text-decoration:none; color:inherit; position:relative; overflow:hidden;
+  transition:transform .22s,box-shadow .22s,border-color .22s}
+.kart::before{content:""; position:absolute; left:0; right:0; top:0; height:3px;
+  background:linear-gradient(90deg,var(--sari),transparent); transform:scaleX(0);
+  transform-origin:left; transition:transform .3s}
+.kart:hover{transform:translateY(-4px); box-shadow:var(--golge); border-color:#cfd6df}
+.kart:hover::before{transform:scaleX(1)}
+.kart h3{margin-bottom:.45em}
+.kart p{color:var(--ink-2); font-size:.93rem; margin-bottom:.8em}
+.kart-ok{font-size:.87rem; font-weight:700; color:var(--sari-koyu)}
+.kart-ok::after{content:" →"}
+
+/* hesaplayıcı */
+
+.hesap-kutu{display:grid; grid-template-columns:repeat(3,1fr); gap:14px; align-items:end;
+  background:var(--ak-2); border:1px solid var(--cizgi-ak); border-radius:var(--r); padding:20px}
+.hesap-kutu label{display:flex; flex-direction:column; gap:6px; font-size:.86rem; font-weight:600;
+  color:var(--ink-2)}
+.hesap-kutu input{padding:11px 13px; border:1px solid #cfd6df; border-radius:var(--r-s);
+  font:inherit; font-weight:700; font-size:1.02rem; background:var(--ak); color:var(--ink)}
+.hesap-kutu input:focus{border-color:var(--sari-koyu); outline:none;
+  box-shadow:0 0 0 3px rgba(255,194,51,.25)}
+.hesap-sonuc{grid-column:1/-1; background:var(--koyu); color:var(--ak); border-radius:var(--r-s);
+  padding:16px 18px; font-size:1.02rem; line-height:1.55}
+.hesap-sonuc b{color:var(--sari); font-size:1.35rem}
+.not{font-size:.86rem; color:var(--ink-3); margin-top:14px}
+
+/* tablo — ⚠️ dar ekranda kendi kabında kayar, body yatay kaymaz */
+.tablo-sar{overflow-x:auto; -webkit-overflow-scrolling:touch; margin:0 0 1.2em;
+  border:1px solid var(--cizgi-ak); border-radius:var(--r); background:var(--ak)}
+.tablo{border-collapse:collapse; width:100%; min-width:640px; font-size:.92rem}
+.tablo th,.tablo td{padding:12px 14px; text-align:left; border-bottom:1px solid var(--cizgi-ak);
+  vertical-align:top}
+.tablo th{background:var(--koyu); color:var(--ak); font-size:.83rem; letter-spacing:.04em;
+  text-transform:uppercase}
+.tablo tr:last-child td{border-bottom:none}
+.tablo a{color:#b8420a; font-weight:700; text-decoration:none}
+
+/* SSS */
+
+.sss-o{border:1px solid var(--cizgi-ak); border-radius:var(--r-s); margin-bottom:9px;
+  background:var(--ak-2); overflow:hidden}
+.sss-o summary{cursor:pointer; padding:15px 46px 15px 17px; font-weight:700; font-size:1rem;
+  position:relative; list-style:none}
+.sss-o summary::-webkit-details-marker{display:none}
+.sss-o summary::after{content:""; position:absolute; right:19px; top:21px; width:9px; height:9px;
+  border-right:2.4px solid var(--ink-3); border-bottom:2.4px solid var(--ink-3);
+  transform:rotate(45deg); transition:transform .22s}
+.sss-o[open] summary::after{transform:rotate(-135deg)}
+.sss-o[open] summary{background:var(--ak)}
+.sss-c{padding:0 17px 15px; color:var(--ink-2); font-size:.955rem}
+.sss-c p{margin:0}
+
+/* ilçe ağı */
+
+.yakalar{display:grid; grid-template-columns:1fr 1fr; gap:26px}
+.yaka h3{padding-bottom:9px; border-bottom:2px solid var(--sari); display:inline-block}
+.ilce-liste{list-style:none; padding:0; display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(148px,1fr)); gap:2px}
+.ilce-liste a{display:block; padding:8px 11px; border-radius:var(--r-s); text-decoration:none;
+  font-size:.92rem; font-weight:600; color:#39424f; transition:background .16s,color .16s}
+.ilce-liste a:hover{background:var(--koyu); color:var(--sari)}
+
+
+/* CTA */
+.cta{background:var(--koyu); color:var(--ak); text-align:center;
+  padding:clamp(40px,5vw,62px) 0}
+.cta h2{color:var(--ak)}
+.cta p{color:#b6c0cd; max-width:56ch; margin-inline:auto}
+.cta .dg-grup{justify-content:center}
+
+/* kırıntı */
+.kirinti{background:var(--koyu-2); border-bottom:1px solid var(--cizgi); font-size:.83rem}
+.kirinti .kap{display:flex; flex-wrap:wrap; gap:7px; align-items:center; padding:9px 0;
+  color:#8e99a9}
+.kirinti a{color:#b9c3d0; text-decoration:none}
+.kirinti a:hover{color:var(--sari)}
+.kirinti a+a::before,.kirinti a+span::before{content:"›"; margin-right:7px; color:#5d6877}
+
+/* ── Alt bilgi ────────────────────────────────────────────────────────── */
+.alt{background:var(--koyu); color:#b8c2cf; padding:52px 0 0; margin-top:0}
+.alt h3{color:var(--ak); font-size:.95rem; margin-bottom:13px}
+.alt-ust{display:grid; grid-template-columns:1.7fr 1fr 1fr 1.2fr; gap:30px;
+  padding-bottom:34px; border-bottom:1px solid var(--cizgi)}
+.alt-marka p{font-size:.9rem; margin:14px 0 16px; max-width:38ch}
+.alt-sut ul{list-style:none; padding:0; margin:0}
+.alt-sut li{margin:.42em 0}
+/* ⚠️ .w4-ad'ı muaf tut: alt bilgi genel a kuralı imzanın rengini ele geçiriyor */
+.alt a:not(.dg):not(.logo-bag):not(.w4-ad){color:#b8c2cf; text-decoration:none; font-size:.9rem;
+  transition:color .16s}
+.alt a:not(.dg):not(.logo-bag):not(.w4-ad):hover{color:var(--sari)}
+.alt .adres{font-size:.9rem; line-height:1.6}
+.alt-ilceler{padding:26px 0; border-bottom:1px solid var(--cizgi)}
+.alt-ilceler h3{margin-bottom:10px}
+.ilce-agi{font-size:.845rem; line-height:2.05; color:#8e99a9}
+.alt-son{display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between;
+  gap:14px; padding:20px 0 26px; font-size:.85rem; color:#8e99a9}
+.alt-son p{margin:0}
+
+/* ── Web4Medya imzası ─────────────────────────────────────────────────────
+   ⚠️ Bağlantı YALNIZCA marka adını sarar; rozeti <a> yapma. His :has() ile veriliyor. */
+.w4{display:flex}
+.w4-bag{display:inline-flex; align-items:center; gap:7px; padding:7px 15px; border-radius:999px;
+  background:rgba(255,255,255,.045); border:1px solid var(--cizgi); font-size:.8rem;
+  position:relative; overflow:hidden; transition:transform .22s,border-color .22s}
+.w4-bag::before{content:""; position:absolute; left:0; right:0; top:0; height:1px;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.3),transparent)}
+.w4-etiket{color:#8792a2}
+.w4-ad{color:#fff; text-decoration:none; font-weight:700; letter-spacing:.01em; position:relative}
+.w4-d{color:var(--w4-mavi); text-shadow:0 0 9px rgba(77,144,255,.55)}
+.w4-ad::after{content:""; position:absolute; left:0; right:0; bottom:-3px; height:1.5px;
+  background:var(--w4-mavi); transform:scaleX(0); transform-origin:left; transition:transform .25s}
+.alt .w4-ad:hover{color:#fff}
+.w4-bag:has(.w4-ad:hover){transform:translateY(-2px); border-color:rgba(77,144,255,.4)}
+.w4-bag:has(.w4-ad:hover) .w4-ad::after{transform:scaleX(1)}
+
+/* ── Sabit alt çubuk (mobil) ──────────────────────────────────────────── */
+
+
+/* ── Ortaya çıkış ─────────────────────────────────────────────────────────
+   ⚠️ Görünürlük yalnız html.js varken gizlenir + app.js'te güvenlik ağı var.
+   ⚠️ Viewport'tan uzun bloklara .gel-3b VERME (rotateX sınır kutusunu döndürüp
+      IntersectionObserver'ı geciktiriyor, seyrannakliyat'ta beyaz ekran yaptı). */
+html.js .gel{opacity:0; transform:translateY(20px); transition:opacity .6s,transform .6s}
+html.js .gel-3b{transform:translateY(20px) rotateX(9deg); transform-origin:top center}
+html.js .gel.gorundu{opacity:1; transform:none}
+
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.01ms !important; transition-duration:.01ms !important}
+  html.js .gel,html.js .hb .l>span{opacity:1 !important; transform:none !important}
+  html{scroll-behavior:auto}
+}
+
+/* ── Duyarlı ──────────────────────────────────────────────────────────── */
+@media (max-width:1000px){
+  .alt-ust{grid-template-columns:1fr 1fr; gap:26px}
+  .yakalar{grid-template-columns:1fr}
+}
+@media (max-width:860px){
+  :root{--ust-h:72px}
+  .hamburger{display:flex}
+  .menu{position:fixed; inset:var(--ust-h) 0 auto 0; flex-direction:column; gap:0;
+    background:var(--koyu); border-bottom:1px solid var(--cizgi); padding:10px 17px 18px;
+    transform:translateY(-118%); transition:transform .3s cubic-bezier(.3,.8,.3,1);
+    box-shadow:var(--golge-koyu); max-height:calc(100dvh - var(--ust-h)); overflow-y:auto}
+  .menu.acik{transform:translateY(0)}
+  .menu a{padding:13px 12px; border-radius:var(--r-s); font-size:1rem}
+  .serit ul{grid-template-columns:1fr; gap:13px; padding:16px 0}
+  .hesap-kutu{grid-template-columns:1fr 1fr}
+  .sabit-ara{display:flex}
+  /* ⚠️ sabit çubuk imzayı örtmesin */
+  .alt{padding-bottom:78px}
+  body{padding-bottom:0}
+}
+@media (max-width:620px){
+  .dg{white-space:normal}          /* uzun düğme metni dar ekranda taşıyordu */
+  .hero .dg-grup .dg{flex:1 1 100%}
+  .hesap-kutu{grid-template-columns:1fr}
+  .alt-ust{grid-template-columns:1fr}
+  .alt-son{flex-direction:column; align-items:flex-start}
+  .ilce-liste{grid-template-columns:repeat(auto-fill,minmax(126px,1fr))}
+}
+
+/* ── Harita (facade — tıklanana kadar iframe yok) ─────────────────────────── */
+
+/* ⚠️ Kullanıcı 2026-09-01: "harita orada direkt gözüksün" — facade kaldırıldı.
+   Yerine iframe'e loading="lazy" verildi: ilk açılışta yüklenmiyor, harita görünür
+   alana gelince geliyor. Böylece harita hep orada ama sayfa hızı korunuyor. */
+.harita{position:relative; border:1px solid var(--cizgi-ak); border-radius:var(--r);
+  overflow:hidden; background:#eef1f5;
+  aspect-ratio:16/9; margin-bottom:18px}
+.harita-ac{position:absolute; inset:0; width:100%; display:flex; align-items:center;
+  justify-content:center; gap:13px; border:0; cursor:pointer; background:transparent;
+  font:inherit; color:var(--ink); padding:20px}
+.harita-ac span{display:flex; flex-direction:column; align-items:flex-start; text-align:left}
+.harita-ac strong{font-size:1.02rem}
+.harita-ac small{color:var(--ink-3); font-size:.85rem}
+.harita-ikon{font-size:1.8rem; line-height:1}
+.harita-ac:hover strong{color:var(--sari-koyu)}
+.harita iframe{width:100%; height:100%; border:0; display:block}
+@media (max-width:620px){.harita{aspect-ratio:4/3}}
+
+/* ── Görsel vitrini ───────────────────────────────────────────────────────
+   ⚠️ KIRPMA YOK: object-fit:cover kullanılmıyor. Kaynak görsellerin oranı
+      1:1 ile 1.87:1 arasında değişiyor; kırpmak kompozisyonu bozuyor.
+   ⚠️ Görselin tamamı tel: bağlantısı (kullanıcı isteği). */
+.vitrin{display:block; position:relative; border-radius:var(--r); overflow:hidden;
+  text-decoration:none; color:inherit; background:var(--koyu-2);
+  box-shadow:var(--golge); margin:0 0 26px;
+  transition:transform .25s, box-shadow .25s}
+.vitrin img{display:block; width:100%; height:auto}   /* tam boy, kırpma yok */
+.vitrin::after{content:""; position:absolute; inset:auto 0 0 0; height:42%;
+  background:linear-gradient(180deg,transparent,rgba(10,13,18,.82)); pointer-events:none}
+.vitrin-ara{position:absolute; left:14px; right:14px; bottom:13px; z-index:1;
+  display:inline-flex; align-items:center; gap:9px; padding:11px 17px;
+  background:linear-gradient(160deg,var(--sari-2),var(--sari)); color:#1a1305;
+  border-radius:999px; font-weight:800; font-size:.95rem; width:fit-content;
+  max-width:calc(100% - 28px); box-shadow:0 6px 20px rgba(0,0,0,.3);
+  transition:transform .22s, box-shadow .22s}
+.vitrin-ara span{overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+.vitrin:hover{transform:translateY(-3px); box-shadow:0 4px 12px rgba(10,14,20,.12),0 20px 46px rgba(10,14,20,.18)}
+.vitrin:hover .vitrin-ara{transform:translateY(-2px); box-shadow:0 9px 26px rgba(0,0,0,.36)}
+.hero-gorsel{margin-top:clamp(26px,4vw,40px)}
+.hero-gorsel .vitrin{margin-bottom:0}
+.metin .vitrin{margin:18px 0 22px}
+@media (max-width:620px){
+  .vitrin-ara{left:10px; right:10px; bottom:10px; padding:10px 14px; font-size:.88rem}
+}
+
+/* İkinci hat düğmesi — birincil sarıdan ayrışsın ama eşit erişilebilir olsun */
+.dg-hat2{background:rgba(255,255,255,.09); color:var(--ak);
+  border:1px solid rgba(255,194,51,.45)}
+.dg-hat2:hover{background:rgba(255,194,51,.16); border-color:var(--sari)}
+.bol .dg-hat2,.hesap .dg-hat2{background:var(--ak); color:var(--ink);
+  border:1px solid var(--sari-koyu)}
+.bol .dg-hat2:hover,.hesap .dg-hat2:hover{background:#fff8e6}
+
+
+/* ── Kiralama dönemleri ───────────────────────────────────────────────────── */
+
+.izgara-3{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:16px}
+.donem{background:var(--ak); border:1px solid var(--cizgi-ak); border-radius:var(--r);
+  padding:22px 21px; position:relative; overflow:hidden}
+.donem::before{content:""; position:absolute; left:0; top:0; bottom:0; width:4px;
+  background:linear-gradient(180deg,var(--sari),transparent)}
+.donem h3{margin-bottom:.4em}
+.donem p{color:var(--ink-2); font-size:.93rem; margin:0}
+
+/* Firma tanıtım PDF bağlantısı (alt bilgi) */
+.alt-pdf{margin:14px 0 0}
+.alt .alt-pdf-bag{display:inline-flex; align-items:center; gap:8px; padding:9px 16px;
+  border-radius:999px; background:rgba(255,255,255,.06); border:1px solid var(--cizgi);
+  color:#c9d1dd; font-size:.85rem; font-weight:600; text-decoration:none;
+  transition:border-color .2s, color .2s, background .2s}
+.alt .alt-pdf-bag::before{content:"📄"; font-size:.95rem}
+.alt .alt-pdf-bag:hover{color:var(--ak); border-color:rgba(255,194,51,.5);
+  background:rgba(255,194,51,.1)}
+
+/* ── Firma tanıtım PDF'i (facade) ─────────────────────────────────────────── */
+
+.tanitim-kutu{display:grid; grid-template-columns:1.25fr 1fr; gap:26px; align-items:center}
+.pdf-kutu{position:relative; border:1px solid var(--cizgi-ak); border-radius:var(--r);
+  overflow:hidden; background:var(--ak-2); box-shadow:var(--golge)}
+.pdf-ac{display:block; width:100%; padding:0; border:0; background:none; cursor:pointer;
+  position:relative; font:inherit; color:inherit}
+.pdf-ac img{display:block; width:100%; height:auto}
+.pdf-ac::after{content:""; position:absolute; inset:0;
+  background:linear-gradient(180deg,transparent 45%,rgba(10,13,18,.7)); pointer-events:none}
+.pdf-rozet{position:absolute; left:16px; bottom:15px; z-index:1; display:flex;
+  flex-direction:column; align-items:flex-start; gap:1px; padding:11px 19px;
+  background:linear-gradient(160deg,var(--sari-2),var(--sari)); color:#1a1305;
+  border-radius:var(--r-s); font-weight:800; font-size:.97rem; text-align:left;
+  box-shadow:0 6px 20px rgba(0,0,0,.32); transition:transform .22s}
+.pdf-rozet small{font-weight:600; font-size:.76rem; opacity:.72}
+.pdf-ac:hover .pdf-rozet{transform:translateY(-2px)}
+.pdf-kutu.acik{aspect-ratio:16/11; background:var(--koyu-2)}
+.pdf-kutu.acik object{width:100%; height:100%; border:0; display:block}
+.pdf-yedek{padding:26px; color:var(--ak); text-align:center}
+.tanitim-yan .ok-liste{margin-bottom:20px}
+.tanitim-yan .dg-grup{margin-top:4px}
+@media (max-width:860px){
+  .tanitim-kutu{grid-template-columns:1fr; gap:20px}
+  .pdf-kutu.acik{aspect-ratio:3/4}
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   KURUMSAL DÜZEN — üst şerit, tam ekran hero, dalga, kart ve alt bilgi
+   Animasyonların tamamı transform/opacity üzerinden: düzen (layout) hesabı
+   tetiklenmiyor, iş GPU'da kalıyor. Ek JS yok, ek istek yok.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Üst iletişim şeridi ─────────────────────────────────────────────────── */
+.ust-serit{background:linear-gradient(92deg,var(--tur),var(--tur-2)); color:#fff;
+  font-size:.855rem; font-weight:600; position:relative; z-index:91}
+.ust-serit-ic{display:flex; align-items:center; justify-content:space-between; gap:16px;
+  min-height:42px; flex-wrap:wrap}
+.us-sol,.us-sag{display:flex; align-items:center; gap:20px; flex-wrap:wrap}
+.us-sol a{display:inline-flex; align-items:center; gap:7px; color:#fff; text-decoration:none;
+  opacity:.95; transition:opacity .18s, transform .18s}
+.us-sol a:hover{opacity:1; transform:translateY(-1px)}
+.us-sol svg{opacity:.9}
+.us-saat{display:inline-flex; align-items:center; gap:7px; opacity:.95}
+.us-rozet{padding:3px 12px; border-radius:999px; background:rgba(0,0,0,.18);
+  font-size:.79rem; letter-spacing:.02em}
+@media (max-width:860px){
+  .us-sag{display:none}
+  .ust-serit-ic{justify-content:center}
+  .us-sol{gap:14px; font-size:.8rem}
+  .us-sol a span{display:none}
+  .us-sol a{padding:6px}
+}
+
+/* ── Üst bar: açık kurumsal ──────────────────────────────────────────────── */
+.ust{background:rgba(255,255,255,.94); border-bottom:1px solid #e6e9ee;
+  backdrop-filter:blur(14px) saturate(1.4); box-shadow:0 1px 0 rgba(16,20,26,.04)}
+.logo-bag{color:var(--ink)}
+.logo-ad b{color:var(--ink)}
+.logo-ad i{color:var(--tur)}
+.logo-im{color:var(--tur)}
+.menu a{color:#3b444f}
+.menu a:hover{background:rgba(239,90,10,.1); color:var(--tur-koyu)}
+.menu a.aktif{background:linear-gradient(178deg,var(--tur-2),var(--tur)); color:#fff;
+  box-shadow:0 2px 0 var(--tur-koyu)}
+.hamburger{border-color:#dbe0e7; background:#fff}
+.hamburger span{background:var(--ink)}
+
+/* ── Tam ekran hero ──────────────────────────────────────────────────────── */
+.hero-tam{padding:clamp(78px,11vw,148px) 0 clamp(86px,10vw,132px); background:var(--koyu)}
+.hero-fon{position:absolute; inset:0; z-index:0}
+.hero-fon picture,.hero-fon img{width:100%; height:100%; object-fit:cover}
+.hero-fon::after{content:""; position:absolute; inset:0;
+  background:linear-gradient(100deg,rgba(12,15,19,.93) 0%,rgba(12,15,19,.78) 46%,
+             rgba(12,15,19,.42) 100%)}
+.hero-tam::after{opacity:.1}
+.hero-ic{position:relative; z-index:2; max-width:880px}
+.hero-tam .hero-ust{display:inline-flex; align-items:center; gap:9px; padding:6px 15px;
+  border-radius:999px; background:rgba(239,90,10,.16); border:1px solid rgba(239,90,10,.42);
+  color:var(--tur-2); margin-bottom:20px}
+.hero-tam .hero-ust::before{content:""; width:6px; height:6px; border-radius:50%;
+  background:var(--tur-2); box-shadow:0 0 0 0 rgba(251,138,26,.7); animation:nabiz 2.4s infinite}
+@keyframes nabiz{70%{box-shadow:0 0 0 9px rgba(251,138,26,0)} 100%{box-shadow:0 0 0 0 rgba(251,138,26,0)}}
+.hero-tam h1{font-size:clamp(2.05rem,5vw,3.5rem); text-shadow:0 2px 26px rgba(0,0,0,.4)}
+.hero-tam .hero-alt{color:#d5dbe3; font-size:clamp(1.04rem,1.9vw,1.24rem)}
+.hero-cip{list-style:none; display:flex; flex-wrap:wrap; gap:9px; padding:0; margin:24px 0 0}
+.hero-cip li{padding:7px 15px; border-radius:999px; font-size:.845rem; font-weight:600;
+  color:#e8ecf2; background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.16);
+  backdrop-filter:blur(3px)}
+html.js .hero-cip li{opacity:0; animation:cipGel .5s ease forwards}
+html.js .hero-cip li:nth-child(1){animation-delay:.34s}
+html.js .hero-cip li:nth-child(2){animation-delay:.42s}
+html.js .hero-cip li:nth-child(3){animation-delay:.5s}
+html.js .hero-cip li:nth-child(4){animation-delay:.58s}
+@keyframes cipGel{from{opacity:0; transform:translateY(9px)} to{opacity:1; transform:none}}
+
+/* ── Dalga ayracı ────────────────────────────────────────────────────────── */
+.dalga{position:absolute; left:0; right:0; bottom:-1px; z-index:3; line-height:0;
+  pointer-events:none}
+.dalga svg{display:block; width:100%; height:clamp(42px,5.5vw,86px)}
+.dalga path{fill:var(--ak-2)}
+.dalga::before{content:""; position:absolute; left:0; right:0; bottom:0;
+  height:clamp(42px,5.5vw,86px);
+  background:linear-gradient(180deg,transparent 42%,var(--tur) 42%,var(--tur) 47%,transparent 47%);
+  -webkit-mask-image:url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 90' preserveAspectRatio='none'%3E%3Cpath d='M0,54 C240,90 480,10 720,32 C960,54 1200,86 1440,58' fill='none' stroke='%23000' stroke-width='7'/%3E%3C/svg%3E");
+  mask-image:url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 90' preserveAspectRatio='none'%3E%3Cpath d='M0,54 C240,90 480,10 720,32 C960,54 1200,86 1440,58' fill='none' stroke='%23000' stroke-width='7'/%3E%3C/svg%3E");
+  -webkit-mask-size:100% 100%; mask-size:100% 100%; background:var(--tur)}
+
+/* ── Bölüm başlığı ───────────────────────────────────────────────────────── */
+.bol-bas{text-align:center; max-width:640px; margin:0 auto clamp(26px,4vw,42px)}
+.bol-bas h2{position:relative; display:inline-block; padding-bottom:14px}
+.bol-bas h2::after{content:""; position:absolute; left:50%; bottom:0; width:52px; height:3px;
+  border-radius:3px; background:linear-gradient(90deg,var(--tur),var(--amber));
+  transform:translateX(-50%)}
+.bol-bas .giris{margin:14px auto 0; color:var(--ink-2)}
+
+/* ── Yuvarlak görselli kartlar ───────────────────────────────────────────── */
+
+.izgara-kart{grid-template-columns:repeat(auto-fit,minmax(238px,1fr)); gap:20px}
+.izgara-kart .kart{padding:0; overflow:visible; background:transparent; border:0;
+  box-shadow:none; text-align:center}
+.izgara-kart .kart::before{display:none}
+.kart-daire{display:block; width:min(200px,72%); margin:0 auto -78px; position:relative; z-index:2;
+  aspect-ratio:1; border-radius:50%; overflow:hidden; background:var(--ak-3);
+  box-shadow:0 10px 30px rgba(16,20,26,.16), 0 0 0 7px #fff;
+  transition:transform .3s cubic-bezier(.2,.7,.3,1), box-shadow .3s}
+/* ⚠️ Burada object-fit:cover İSTENİYOR — görselin daireye oturması için.
+   vitrin() görsellerindeki "kırpma yok" kuralı bunun dışında. */
+.kart-daire img{width:100%; height:100%; object-fit:cover; display:block}
+.kart-ic{display:block; background:linear-gradient(180deg,#fff,#f7f8fa);
+  border:1px solid var(--cizgi-ak); border-radius:var(--r);
+  padding:92px 20px 22px; position:relative;
+  box-shadow:0 1px 2px rgba(16,20,26,.05), 0 10px 24px rgba(16,20,26,.06);
+  transition:transform .3s cubic-bezier(.2,.7,.3,1), box-shadow .3s, border-color .3s}
+.izgara-kart .kart h3{font-size:1.02rem; margin-bottom:.4em}
+.izgara-kart .kart p{font-size:.9rem; color:var(--ink-2); margin-bottom:1em;
+  display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden}
+.kart-ok{display:inline-flex; align-items:center; gap:7px; padding:10px 20px;
+  border-radius:10px; background:linear-gradient(178deg,#2b3038,var(--koyu)); color:#fff;
+  font-size:.87rem; font-weight:700;
+  box-shadow:0 2px 0 #000, 0 6px 16px rgba(0,0,0,.2);
+  transition:background .25s, box-shadow .25s, transform .2s}
+.kart-ok::after{content:"↗"; font-size:.9em}
+.izgara-kart .kart:hover .kart-daire{transform:translateY(-6px) scale(1.03);
+  box-shadow:0 18px 40px rgba(239,90,10,.28), 0 0 0 7px #fff}
+.izgara-kart .kart:hover .kart-ic{transform:translateY(-4px); border-color:rgba(239,90,10,.4);
+  box-shadow:0 2px 4px rgba(16,20,26,.06), 0 22px 44px rgba(16,20,26,.13)}
+.izgara-kart .kart:hover .kart-ok{background:linear-gradient(178deg,var(--tur-2),var(--tur));
+  box-shadow:0 2px 0 var(--tur-koyu), 0 8px 20px rgba(239,90,10,.4)}
+
+/* ── Turuncu / koyu bölünmüş bölüm ───────────────────────────────────────── */
+.bolunmus{padding:clamp(34px,5vw,62px) 0}
+.bolunmus-ic{display:grid; grid-template-columns:1fr 1fr; border-radius:22px;
+  overflow:hidden; box-shadow:0 8px 24px rgba(16,20,26,.1), 0 30px 60px rgba(16,20,26,.12)}
+.bl-sol{background:linear-gradient(150deg,var(--tur-2),var(--tur)); color:#fff;
+  padding:clamp(26px,3.4vw,42px)}
+.bl-sol h2,.bl-sag h2{color:#fff}
+.bl-sol>p{color:rgba(255,255,255,.9); font-size:.94rem; margin-bottom:20px}
+.urunler{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:22px}
+.urun{display:block; background:rgba(255,255,255,.14); border-radius:var(--r);
+  overflow:hidden; text-decoration:none; color:#fff; border:1px solid rgba(255,255,255,.22);
+  transition:transform .26s cubic-bezier(.2,.7,.3,1), background .26s, box-shadow .26s}
+.urun img{width:100%; aspect-ratio:4/3; object-fit:cover; display:block}
+.urun-ic{display:block; padding:13px 15px 15px}
+.urun h3{font-size:.94rem; margin-bottom:.35em; color:#fff}
+.urun-ok{font-size:.8rem; font-weight:700; opacity:.9}
+.urun-ok::after{content:" ↗"}
+.urun:hover{transform:translateY(-4px); background:rgba(255,255,255,.24);
+  box-shadow:0 14px 30px rgba(0,0,0,.22)}
+.bl-sag{background:linear-gradient(160deg,var(--koyu-2),var(--koyu));
+  padding:clamp(26px,3.4vw,44px); color:#c3ccd8; position:relative; overflow:hidden}
+.bl-sag::before{content:""; position:absolute; inset:0; opacity:.5; pointer-events:none;
+  background-image:radial-gradient(rgba(255,255,255,.09) 1px,transparent 1px);
+  background-size:19px 19px}
+.bl-sag>*{position:relative}
+.bl-sag p{font-size:.96rem; line-height:1.75}
+.bl-sag strong{color:#fff}
+@media (max-width:900px){
+  .bolunmus-ic{grid-template-columns:1fr}
+  .urunler{grid-template-columns:1fr 1fr}
+}
+@media (max-width:520px){.urunler{grid-template-columns:1fr}}
+
+/* ── Alt bilgi: yuvarlak köşeli kurumsal kart ────────────────────────────── */
+.alt{background:var(--ak-2); padding:0 0 26px}
+.alt>.kap{background:linear-gradient(165deg,var(--koyu-2),var(--koyu));
+  border-radius:22px; padding:clamp(28px,3.6vw,46px) clamp(20px,3vw,40px) 26px;
+  position:relative; overflow:hidden;
+  box-shadow:0 8px 24px rgba(16,20,26,.1), 0 30px 60px rgba(16,20,26,.14)}
+.alt>.kap::before{content:""; position:absolute; inset:0; opacity:.45; pointer-events:none;
+  background-image:radial-gradient(rgba(255,255,255,.08) 1px,transparent 1px);
+  background-size:19px 19px}
+.alt>.kap>*{position:relative}
+.alt-saat{margin-top:12px; font-size:.9rem}
+.alt-saat strong{color:var(--tur-2); font-size:1.02rem}
+.alt-saat span{color:#8e99a9; font-size:.84rem}
+.alt h3{position:relative; padding-bottom:9px}
+.alt h3::after{content:""; position:absolute; left:0; bottom:0; width:26px; height:2px;
+  border-radius:2px; background:var(--tur)}
+.alt a:not(.dg):not(.logo-bag):not(.w4-ad):hover{color:var(--tur-2)}
+.ilce-agi a:hover{color:var(--tur-2)}
+
+/* ── Kurumsal ince dokunuşlar ────────────────────────────────────────────── */
+.serit{background:var(--koyu-2)}
+.serit li::before{background:linear-gradient(180deg,var(--tur-2),var(--tur))}
+.donem::before{background:linear-gradient(180deg,var(--tur),var(--amber))}
+.metin a{color:var(--tur-koyu); text-decoration-color:rgba(239,90,10,.4)}
+.metin a:hover{color:#8f3307}
+.ok-liste li::before{border-color:var(--tur)}
+.adim li::before{background:linear-gradient(178deg,var(--tur-2),var(--tur)); color:#fff;
+  box-shadow:0 2px 0 var(--tur-koyu)}
+.ilce-liste a:hover{background:var(--koyu); color:var(--tur-2)}
+.sss-o[open]{border-color:rgba(239,90,10,.34); box-shadow:0 6px 18px rgba(239,90,10,.09)}
+.sss-o summary:hover{color:var(--tur-koyu)}
+.hesap-sonuc b{color:var(--tur-2)}
+.hesap-kutu input:focus{border-color:var(--tur);
+  box-shadow:0 0 0 3px rgba(239,90,10,.22)}
+.vitrin-ara{background:linear-gradient(178deg,var(--tur-2),var(--tur)); color:#fff;
+  box-shadow:0 2px 0 var(--tur-koyu), 0 6px 20px rgba(0,0,0,.3)}
+.pdf-rozet{background:linear-gradient(178deg,var(--tur-2),var(--tur)); color:#fff;
+  box-shadow:0 2px 0 var(--tur-koyu), 0 6px 20px rgba(0,0,0,.32)}
+.tablo th{background:linear-gradient(178deg,var(--koyu-2),var(--koyu))}
+.tablo a{color:var(--tur-koyu)}
+.kirinti a:hover{color:var(--tur-2)}
+.cta{background:linear-gradient(160deg,var(--koyu-2),var(--koyu)); position:relative;
+  overflow:hidden}
+.cta::before{content:""; position:absolute; inset:0; opacity:.4; pointer-events:none;
+  background-image:radial-gradient(rgba(255,255,255,.08) 1px,transparent 1px);
+  background-size:19px 19px}
+.cta>*{position:relative}
+.dg-hat2{border-color:rgba(239,90,10,.5)}
+.bol .dg-hat2,.hesap .dg-hat2{border-color:var(--tur)}
+.bol .dg-hat2:hover,.hesap .dg-hat2:hover{background:#fff4e8}
+.atla{background:var(--tur); color:#fff}
+:focus-visible{outline-color:var(--tur)}
+
+
+/* ── Logodan gelen çelik tonu (kurumsal yüzeyler) ─────────────────────────── */
+.serit{background:linear-gradient(160deg,var(--koyu-2),var(--koyu))}
+.serit span{color:var(--celik-ak)}
+.bl-sag{background:linear-gradient(160deg,#232a35,var(--koyu))}
+.hero-fon::after{background:linear-gradient(100deg,rgba(14,17,23,.94) 0%,
+  rgba(16,20,27,.8) 46%,rgba(20,25,33,.44) 100%)}
+.kart-ok{background:linear-gradient(178deg,var(--celik),#333c4b);
+  box-shadow:0 2px 0 #1b212b, 0 6px 16px rgba(0,0,0,.2)}
+.dg-teklif{background:linear-gradient(178deg,#39414f,var(--celik));
+  box-shadow:0 2px 0 #262d38, 0 8px 20px rgba(0,0,0,.26), inset 0 1px 0 rgba(255,255,255,.12)}
+.dg-teklif:hover{box-shadow:0 4px 0 #262d38, 0 14px 28px rgba(0,0,0,.32),
+  inset 0 1px 0 rgba(255,255,255,.16)}
+.tablo th{background:linear-gradient(178deg,var(--celik),#333c4b)}
+.adim li::before{box-shadow:0 2px 0 var(--tur-koyu)}
+.ust{background:rgba(255,255,255,.96)}
+.menu a{color:var(--celik)}
+.hamburger span{background:var(--celik)}
+
+/* Hero sloganı — H1 SEO metnini taşıdığı için marka sloganı ayrı satırda,
+   görsel ağırlığı H1'e yakın ama başlık hiyerarşisini bozmadan. */
+.hero-slogan{font-size:clamp(1.24rem,2.7vw,1.85rem); font-weight:700; line-height:1.35;
+  color:#fff; margin:0 0 16px; letter-spacing:-.01em;
+  text-shadow:0 2px 18px rgba(0,0,0,.42)}
+.hero-slogan::before{content:""; display:block; width:46px; height:3px; border-radius:3px;
+  margin-bottom:15px; background:linear-gradient(90deg,var(--tur),var(--amber))}
+html.js .hero-slogan{opacity:0; animation:cipGel .6s ease .26s forwards}
+.hero-tam h1{font-size:clamp(1.72rem,3.9vw,2.72rem); margin-bottom:14px}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   MOBİL/MASAÜSTÜ DÜZELTMELERİ (2026-09-01, kullanıcının ekran görüntüleri)
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ⚠️ HATA 1: Şerit normal akışta, menü sticky idi. Kaydırırken ikisinin arasından
+   arkadaki koyu içerik sızıyordu. İkisi tek sticky sarmalayıcıda birleşti. */
+.ust-kap{position:sticky; top:0; z-index:95}
+.ust{position:static}                    /* sticky artık sarmalayıcıda */
+.ust-serit{position:static}
+
+/* ⚠️ HATA 2: Menü %96 opaktı, arkasındaki koyu bölümler sızıyordu. Tam opak. */
+.ust{background:#fff}
+
+/* Sticky başlık yüksekliği kadar çapa payı — #hesap, #ilceler gibi bağlantılara
+   atlarken başlık içeriği örtmesin. */
+:target,[id]{scroll-margin-top:calc(var(--ust-h) + 54px)}
+
+@media (max-width:860px){
+  /* ⚠️ HATA 3: Mobilde şeritteki metinler gizliydi, geriye anlamsız 3 ikon kalıyordu.
+     Şerit mobilde tamamen kaldırıldı — aynı işlevi sabit alt çubuk (Ara / 2. Hat /
+     WhatsApp) zaten görüyor ve sticky alanı 114px'ten 72px'e düşüyor. */
+  .ust-serit{display:none}
+
+  /* ⚠️ HATA 4: Logo küçük, "Teklif Al" orantısız büyüktü. */
+  .logo-im{height:52px}
+  .ust-ic{gap:10px}
+  .dg-teklif{padding:10px 15px; font-size:.88rem; border-radius:10px}
+  .dg-teklif svg{width:13px; height:13px}
+  .hamburger{width:42px; height:42px; flex:none}
+}
+@media (max-width:400px){
+  .logo-im{height:46px}
+  .dg-teklif{padding:9px 12px; font-size:.83rem}
+  .dg-teklif span{white-space:nowrap}
+}
+
+/* Alt bilgideki uzun tür listesi mobilde iki sütun — 18 madde alt alta çok uzuyordu */
+@media (max-width:620px){
+  .alt-sut ul{display:grid; grid-template-columns:1fr 1fr; gap:2px 14px}
+  .alt-sut li{margin:.3em 0}
+  .alt-iletisim ul{grid-template-columns:1fr}
+}
+
+/* ⚠️ HATA 5 — KRİTİK: `.ust` üzerindeki backdrop-filter YIĞIN BAĞLAMI oluşturuyor.
+   Mobil menü `.menu{position:fixed}` onun çocuğu olduğu için viewport'a değil
+   `.ust`'a göre konumlanıyordu → menü yanlış yerde/kırpılmış açılır.
+   (Aynı tuzak daha önce başka bir projede menü linklerini tıklanamaz yapmıştı.)
+   Menü zaten tam opak (#fff) olduğu için blur'a gerek yok — kaldırıldı. */
+.ust{backdrop-filter:none; -webkit-backdrop-filter:none}
+
+/* Mobil menü paneli: sticky sarmalayıcının altından başlasın, ekranı taşırmasın */
+@media (max-width:860px){
+  .menu{inset:var(--ust-h) 0 auto 0; max-height:calc(100dvh - var(--ust-h) - 66px);
+    overflow-y:auto; overscroll-behavior:contain}
+  /* açık menüde sabit alt çubuk menüyü örtmesin */
+  body.menu-acik .sabit-ara{opacity:0; pointer-events:none; transform:translateY(100%)}
+  .sabit-ara{transition:opacity .25s, transform .25s}
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   EKRAN GÖRÜNTÜSÜ DÜZELTMELERİ — 2. tur (2026-09-01)
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ⚠️ HATA 6 — SINIF ÇAKIŞMASI (kenarda beyaz boşluk):
+   `.hero-ic` iki ayrı anlamda kullanılıyordu — iç sayfa hero SECTION'ı
+   (`class="hero hero-ic"`) ve anasayfa hero içerik DIV'i (`class="kap hero-ic"`).
+   Anasayfa için yazılan `max-width:880px` iç sayfa section'ına da uyguladığından
+   hero daralıyor, sağında beyaz alan kalıyordu.
+   Anasayfa div'i `.hero-metin` oldu. ⛔ `.hero-ic`e max-width verme. */
+.hero-metin{position:relative; z-index:2; max-width:880px}
+.hero-ic{max-width:none}                 /* section tam genişlikte kalsın */
+
+/* ⚠️ HATA 7 — dairesel kartlar yarım görünüyordu:
+   `<picture>` global olarak display:block ama YÜKSEKLİĞİ auto kalıyordu;
+   içindeki img'in height:100%'ü çözülemiyor, görsel daireyi dolduramıyordu.
+   (Aynı tuzak seyrannakliyat galerisinde de yaşanmıştı.) */
+.kart-daire picture{display:block; width:100%; height:100%}
+.kart-daire img{width:100%; height:100%; object-fit:cover; display:block}
+.urun picture{display:block; width:100%}
+.hero-fon picture{width:100%; height:100%}
+
+/* ⚠️ HATA 8 — alt bilgi kenarları oturmamış görünüyordu:
+   kart üstteki koyu CTA bölümüne yapışıktı, yuvarlak köşeler seçilmiyordu. */
+.alt{padding:30px 0 26px}
+.alt>.kap{border:1px solid rgba(255,255,255,.07)}
+.alt-tumu{margin-top:.7em !important}
+.alt-tumu a{color:var(--tur-2) !important; font-weight:700}
+
+/* Yatay taşma güvenliği: hiçbir medya kabından geniş olmasın */
+img,picture,svg,video,iframe,object{max-width:100%}
+.kap{max-width:100%}
+
+/* ⚠️ HATA 9 — görseller tüm ekranı kaplıyordu (kullanıcı bildirdi):
+   `.vitrin img{width:100%}` + kaynak görsellerin uzun kenarı, 1180px'lik kapta
+   700-900px yükseklik üretiyordu; portre kaynaklarda (0,67:1) ekranı tamamen
+   dolduruyordu. Vitrin artık sabit oranlı bir kutuda duruyor ve genişliği sınırlı.
+   ⚠️ object-fit:cover burada BİLİNÇLİ — "kırpma yok" kuralı poster/afiş türü
+   görseller içindi; bunlar saha fotoğrafı, kırpma kompozisyonu bozmuyor. */
+.vitrin{max-width:820px; margin-inline:auto; aspect-ratio:16/10}
+.vitrin picture{width:100%; height:100%; display:block}
+.vitrin img{width:100%; height:100%; object-fit:cover; object-position:center}
+.metin .vitrin{max-width:100%}
+.hero-gorsel .vitrin{aspect-ratio:16/9}
+@media (max-width:620px){
+  .vitrin{aspect-ratio:4/3}
+}
+/* Bölünmüş bölümdeki ürün kartları ve PDF kapağı da sınırlı */
+.urun img{aspect-ratio:4/3; object-fit:cover}
+.pdf-ac img{max-height:420px; object-fit:cover; object-position:top}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   ÜST MENÜ — kurumsal düzen (2026-09-01, "daha profesyonel olabilirdi")
+   Menü gerçekten ortalandı, linkler dolgu yerine ince alt çizgiyle çalışıyor,
+   sağda telefon bloğu + turuncu Teklif Al ikilisi duruyor.
+   ═══════════════════════════════════════════════════════════════════════════ */
+.ust-ic{display:flex; align-items:center; gap:18px}
+.logo-bag{flex:none; margin-right:4px}
+/* ⚠️ Menü artık logoya yapışık değil, kapta ortalanıyor */
+.menu{margin-inline:auto; gap:2px}
+.ust-ara{margin-left:0; flex:none; gap:12px}
+
+/* Linkler: dolgulu hap yerine ince alt çizgi — kurumsal ve sakin */
+.menu a{position:relative; padding:10px 14px; border-radius:8px; background:none;
+  color:#39424f; font-size:.93rem; font-weight:600; letter-spacing:-.005em}
+.menu a::after{content:""; position:absolute; left:14px; right:14px; bottom:4px; height:2px;
+  border-radius:2px; background:linear-gradient(90deg,var(--tur),var(--amber));
+  transform:scaleX(0); transform-origin:left; transition:transform .26s cubic-bezier(.2,.7,.3,1)}
+.menu a:hover{background:none; color:var(--koyu)}
+.menu a:hover::after{transform:scaleX(1)}
+.menu a.aktif{background:none; color:var(--tur-koyu); box-shadow:none}
+.menu a.aktif::after{transform:scaleX(1)}
+
+/* Sağdaki telefon bloğu */
+.ust-tel{display:inline-flex; align-items:center; gap:10px; text-decoration:none;
+  padding:6px 4px; color:var(--koyu); transition:transform .2s}
+.ust-tel:hover{transform:translateY(-1px)}
+.ust-tel-ik{display:grid; place-items:center; width:38px; height:38px; border-radius:11px;
+  background:linear-gradient(178deg,#fff2e6,#ffe2c9); color:var(--tur-koyu);
+  border:1px solid rgba(242,100,0,.24); flex:none;
+  box-shadow:0 2px 0 rgba(242,100,0,.14)}
+.ust-tel-ic{display:flex; flex-direction:column; line-height:1.15}
+.ust-tel-ic small{font-size:.7rem; color:var(--ink-3); font-weight:600; letter-spacing:.02em}
+.ust-tel-ic strong{font-size:.98rem; font-weight:800; letter-spacing:-.01em}
+.ust-tel:hover .ust-tel-ik{background:linear-gradient(178deg,var(--tur-2),var(--tur));
+  color:#fff; border-color:transparent}
+
+/* Teklif Al: marka turuncusu — sayfadaki birincil eylem */
+.ust .dg-teklif{background:linear-gradient(178deg,var(--tur-2),var(--tur)); color:#fff;
+  padding:12px 22px;
+  box-shadow:0 2px 0 var(--tur-koyu), 0 8px 20px rgba(242,100,0,.3),
+             inset 0 1px 0 rgba(255,255,255,.26)}
+.ust .dg-teklif:hover{transform:translateY(-2px);
+  box-shadow:0 4px 0 var(--tur-koyu), 0 14px 28px rgba(242,100,0,.4),
+             inset 0 1px 0 rgba(255,255,255,.3)}
+
+/* Kaydırınca menü kompaktlaşsın — yalnız yükseklik/gölge değişiyor.
+   ⚠️ Renk değiştiren varyant KULLANILMIYOR: JS gecikince beyaz üzerine beyaz
+   logo bırakma riski var (seyrannakliyat'ta yaşanmıştı). */
+.ust-kap{transition:box-shadow .25s}
+body.kaydi .ust-kap{box-shadow:0 6px 24px rgba(16,20,26,.1)}
+body.kaydi .ust{--ust-h:70px}
+body.kaydi .logo-im{height:clamp(42px,4.4vw,50px)}
+.ust,.logo-im{transition:height .25s}
+
+@media (max-width:1120px){
+  .menu a{padding:10px 10px; font-size:.9rem}
+  .ust-tel-ic{display:none}
+  .ust-tel-ik{width:42px; height:42px}
+}
+@media (max-width:860px){
+  .ust-ic{gap:10px}
+  .menu{margin-inline:0}
+  .ust-ara{margin-left:auto}
+  .ust-tel{display:none}          /* mobilde sabit alt çubukta zaten var */
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   MOBİL OTURAKLILIK + SABİT İLETİŞİM ÇUBUĞU (2026-09-01)
+   Kullanıcı: "footer kutucuk içinde gibi", "oturaklı/kurumsal durmuyor",
+   "sabit butonlar daha modern olsun; arama mavi, WhatsApp yeşil, Hat (1)/(2)".
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+:root{
+  --mavi:#1f6fe0; --mavi-2:#3d8bf5; --mavi-koyu:#1454b4;
+}
+
+/* ── Sabit iletişim çubuğu ────────────────────────────────────────────────
+   İkon üstte, etiket altta; yükseltilmiş cam zemin, 3B kabartma.
+   Dokunma hedefi 56px — parmakla rahat basılıyor. */
+.sabit-ara{display:none; position:fixed; left:0; right:0; bottom:0; z-index:96;
+  gap:8px; padding:9px 10px calc(9px + env(safe-area-inset-bottom));
+  background:linear-gradient(180deg,rgba(18,21,27,.86),rgba(18,21,27,.97));
+  backdrop-filter:blur(14px) saturate(1.3);
+  border-top:1px solid rgba(255,255,255,.1);
+  box-shadow:0 -8px 28px rgba(0,0,0,.3)}
+.sa{flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:3px; min-height:56px; padding:7px 4px; border-radius:14px; text-decoration:none;
+  font-weight:700; letter-spacing:-.01em;
+  transition:transform .16s cubic-bezier(.2,.7,.3,1), box-shadow .2s, filter .2s}
+.sa-ik{display:grid; place-items:center; line-height:0}
+.sa-ik svg{width:19px; height:19px}
+.sa-yz{font-size:.78rem; line-height:1}
+.sa:active{transform:translateY(2px)}
+/* Arama hatları: MAVİ */
+.sa-tel{background:linear-gradient(178deg,var(--tur-2),var(--tur)); color:#fff;
+  box-shadow:0 3px 0 var(--tur-koyu), 0 6px 16px rgba(239,90,10,.36),
+             inset 0 1px 0 rgba(255,255,255,.28)}
+.sa-tel:active{box-shadow:0 1px 0 var(--tur-koyu), 0 3px 10px rgba(239,90,10,.3)}
+/* WhatsApp: YEŞİL */
+.sa-wa{background:linear-gradient(178deg,#31e07a,#1fbe5f); color:#04351a;
+  box-shadow:0 3px 0 #10893f, 0 6px 16px rgba(37,211,102,.34),
+             inset 0 1px 0 rgba(255,255,255,.34)}
+.sa-wa:active{box-shadow:0 1px 0 #10893f, 0 3px 10px rgba(37,211,102,.28)}
+
+/* ── Mobilde footer "kutu içinde" duruyordu → tam genişlik, oturaklı ─────── */
+@media (max-width:860px){
+  .sabit-ara{display:flex}
+  .alt{padding:0 0 88px; background:var(--koyu)}
+  /* ⚠️ Yuvarlak kart mobilde ekranın içinde yüzen kutu gibi duruyordu:
+     kenar boşlukları + yuvarlak köşeler dar ekranda oyuncak hissi veriyor. */
+  .alt>.kap{width:100%; max-width:none; border-radius:0; border:0;
+    padding:30px 17px 22px; box-shadow:none;
+    border-top:3px solid var(--tur)}
+  .alt-ust{grid-template-columns:1fr; gap:26px; padding-bottom:24px}
+  .alt-marka p{max-width:none}
+  .alt-son{padding-bottom:8px}
+}
+
+/* ── Mobil oturaklılık: nefes, hiyerarşi, tutarlı ritim ─────────────────── */
+@media (max-width:860px){
+  .bol{padding:clamp(34px,7vw,52px) 0}
+  .kap{width:min(100% - 30px,var(--kap))}
+  h2{font-size:clamp(1.3rem,5.4vw,1.62rem)}
+  h3{font-size:1.02rem}
+  .metin p,.metin li{font-size:.975rem; line-height:1.72}
+  .bol-bas{margin-bottom:24px; text-align:left}
+  .bol-bas h2::after{left:0; transform:none}
+  .bol-bas .giris{margin-left:0}
+  /* kartlar: daha sakin gölge, daha net kenar — "oyuncak" hissini alır */
+  .kart-daire{width:min(150px,54%); margin-bottom:-58px; box-shadow:0 8px 22px rgba(0,0,0,.14), 0 0 0 5px #fff}
+  .kart-ic{padding:70px 17px 19px; border-radius:12px;
+    box-shadow:0 1px 2px rgba(16,20,26,.05), 0 6px 16px rgba(16,20,26,.05)}
+  .izgara-kart{gap:16px}
+  .donem,.kart-ic,.sss-o,.harita,.vitrin,.tablo-sar{border-radius:12px}
+  .bolunmus-ic{border-radius:14px}
+  .bl-sol,.bl-sag{padding:24px 18px}
+  .hero-tam{padding:56px 0 64px}
+  .serit ul{padding:18px 0}
+  .cta{padding:38px 0}
+  /* sabit çubuk her sayfada alt boşluk bıraksın */
+  main{padding-bottom:6px}
+}
+
+
+/* ⚠️ Dalga artık güven şeridinin (koyu blok) sonunda; dolgusu bir SONRAKİ
+   bölümün rengi olmalı — beyaz "Hizmetlerimiz" bölümü. Hero'nun altındayken
+   dolgu açık gri, ardındaki şerit koyuydu ve arada gereksiz açık bant kalıyordu. */
+.serit{position:relative; padding-bottom:clamp(46px,5.5vw,86px)}
+.dalga path{fill:#fff}
+.dalga::before{background:var(--tur)}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   BÖLÜM RİTMİ — "oturaklı/kurumsal durmuyor" geri bildiriminin asıl sebebi
+   Zeminler rastgele zıplıyordu: beyaz → #f5f6f8 → #e8ebef → beyaz → #f5f6f8 →
+   beyaz → beyaz → beyaz → #e8ebef. İki ayrı gri tonu karışık kullanılıyor,
+   üç beyaz bölüm arka arkaya geliyordu.
+   Artık TEK gri tonu ve düzenli beyaz/gri dönüşümü var.
+   ⛔ Yeni bölüm eklerken ritmi bozma: bir öncekinin tersi zemini ver.
+   ═══════════════════════════════════════════════════════════════════════════ */
+/* Zemin artık sıraya göre veriliyor (build.ritim_uygula) — sınıf adına göre değil */
+.bol-ak{background:#fff}
+.bol-gri{background:var(--ak-2)}
+.bolunmus{background:#fff}
+/* dalga, kendisinden sonra gelen bölümün (turler) zeminine akmalı */
+.dalga path{fill:var(--ak-2)}
+
+/* Gri zeminde beyaz kartlar öne çıksın */
+.turler .kart-ic{background:#fff}
+.donemler .donem{background:#fff}
+.sss-o{background:#fff}
+.sss-o[open] summary{background:#fafbfc}
+
+/* İki gri tonundan biri kalktı; --ak-3 yalnız kenar/ayraç için kalıyor */
+
+.bol-gri .kart-ic,.bol-gri .donem,.bol-gri .sss-o,.bol-gri .hesap-kutu{background:#fff}
+.bol-ak .hesap-kutu{background:var(--ak-2)}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   MOBİL HEADER — ölçümle bulunan denge sorunu (2026-09-01)
+   390px'te logo 67×46, "Teklif Al" 116×49 idi: düğme logodan büyük olduğu için
+   hiyerarşi tersti ve aralarında 123px boşluk kalıyordu. Logo 1.45:1 oranında
+   olduğundan 46px yükseklikte marka adı okunmuyordu.
+   ═══════════════════════════════════════════════════════════════════════════ */
+@media (max-width:860px){
+  :root{--ust-h:78px}
+  .ust-ic{gap:8px}
+  /* Logo büyüdü: 46 → 58px (genişlik ~84px), marka adı artık okunuyor */
+  .logo-im{height:58px}
+  /* Teklif Al kompaktlaştı: düğme artık logodan baskın değil */
+  .ust .dg-teklif{padding:10px 16px; font-size:.86rem; border-radius:11px; gap:6px}
+  .ust .dg-teklif svg{width:12px; height:12px}
+  .hamburger{width:44px; height:44px; border-radius:12px}
+  /* Sağ grup birlikte hareket etsin, ortadaki boşluk logoya nefes versin */
+  .ust-ara{gap:8px}
+}
+@media (max-width:400px){
+  :root{--ust-h:72px}
+  .logo-im{height:52px}
+  .ust .dg-teklif{padding:9px 13px; font-size:.82rem}
+  .hamburger{width:42px; height:42px}
+}
+@media (max-width:340px){
+  .logo-im{height:46px}
+  /* Çok dar ekranda düğme yalnız ikon — metin taşmasın */
+  .ust .dg-teklif span{display:none}
+  .ust .dg-teklif{padding:11px}
+  .ust .dg-teklif svg{width:15px; height:15px}
+}
+
+/* Mobil menü paneli: kurumsal görünüm, üst bara yapışık, ayrı kart gibi değil */
+@media (max-width:860px){
+  .menu{background:#fff; border-bottom:1px solid #e6e9ee; padding:8px 16px 14px;
+    box-shadow:0 18px 40px rgba(16,20,26,.16)}
+  .menu a{color:var(--celik); padding:14px 12px; border-radius:10px; font-size:1rem;
+    border-bottom:1px solid #f0f2f5}
+  .menu a:last-child{border-bottom:0}
+  .menu a::after{display:none}
+  .menu a:hover,.menu a:focus-visible{background:rgba(239,90,10,.07); color:var(--tur-koyu)}
+  .menu a.aktif{background:rgba(239,90,10,.1); color:var(--tur-koyu)}
+}
+
+/* ⚠️ Mobil menüde "siyah üzerine siyah" (kullanıcı bildirdi):
+   `.menu a{color:var(--celik)}` masaüstü için media query DIŞINDA yazılmıştı;
+   mobilde panel koyu (`var(--koyu)`) olduğu için koyu gri yazı okunmuyordu.
+   Panel beyaza çevrildi. Aktif link kontrastı da 4.32:1 ile sınırın altındaydı
+   (WCAG AA = 4.5) → daha koyu turuncuya alındı: 6.1:1. */
+@media (max-width:860px){
+  .menu{background:#fff !important}
+  .menu a{color:#3a4353 !important}
+  .menu a.aktif{color:#a33d00 !important; background:rgba(239,90,10,.09)}
+  .menu a:hover,.menu a:focus-visible{color:#a33d00 !important}
+}
+
+/* ⚠️ HEADER ÜSTÜNDE BEYAZ ŞERİT (kullanıcı bildirdi, ölçümle doğrulandı):
+   Kapalı mobil menü `transform:translateY(-118%)` ile gizleniyordu. Panel
+   top:72px'ten başlayıp 369px yüksekliğinde olduğu için -118% (-435px) kaydırma
+   alt kenarını +6px'te bırakıyordu → header'ın ÜSTÜNDE 6px beyaz şerit.
+   Yüzde bazlı kaydırma güvenilmez: panel yüksekliği içerik ve ekrana göre değişiyor.
+   Çözüm: visibility ile kesin gizleme (taşma olsa da görünmez) + tam kapatan kaydırma. */
+@media (max-width:860px){
+  .menu{transform:translateY(-104%); visibility:hidden;
+    transition:transform .3s cubic-bezier(.3,.8,.3,1), visibility .3s;
+    top:var(--ust-h); bottom:auto}
+  .menu.acik{transform:translateY(0); visibility:visible}
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   LOGO BOYUTLARI (kullanıcı: "footerdeki 3x büyük, headerdeki daha büyük")
+   ⚠️ Logo 1.45:1 oranında ve içinde iskele kulesi + marka adı + slogan var;
+      küçük boyutta detay kayboluyor. Bar yükseklikleri buna göre ayarlandı.
+   ═══════════════════════════════════════════════════════════════════════════ */
+:root{--ust-h:100px}
+.logo-im{height:clamp(58px,6.6vw,76px)}
+body.kaydi .ust{--ust-h:82px}
+body.kaydi .logo-im{height:clamp(52px,5.4vw,62px)}
+
+/* Alt bilgi logosu ~3 kat: 72px → 208px */
+.alt .logo-im{height:208px; max-width:100%}
+.alt-marka{display:flex; flex-direction:column; align-items:flex-start}
+
+@media (max-width:1120px){
+  :root{--ust-h:92px}
+  .logo-im{height:66px}
+}
+@media (max-width:860px){
+  :root{--ust-h:86px}
+  .logo-im{height:66px}
+  .alt .logo-im{height:170px}
+}
+@media (max-width:400px){
+  :root{--ust-h:78px}
+  .logo-im{height:58px}
+  .alt .logo-im{height:140px}
+}
+@media (max-width:340px){
+  .logo-im{height:52px}
+}
+
+/* ⚠️ HEADER TİTREŞİMİ (kullanıcı bildirdi, ölçümle kanıtlandı):
+   `body.kaydi` header yüksekliğini 143→125px değiştiriyordu. Sticky başlık normal
+   akışta yer kapladığı için bu 18px'lik değişim sayfayı kaydırıyor, scroll konumu
+   sıçrıyor (ölçüm: hedef 39px → gerçekleşen 57px), eşik yeniden aşılıyor ve sınıf
+   açılıp kapanarak TİTREŞİM üretiyordu.
+   ⛔ Sticky başlıkta yükseklik/padding/margin ANİMASYONU YAPMA — layout tetikler.
+   Kompakt görünüm yerine yalnız gölge ve logo ölçeği değişiyor: ikisi de
+   layout'a dokunmuyor (box-shadow + transform, GPU'da). */
+body.kaydi .ust{--ust-h:100px}                    /* yükseklik SABİT */
+body.kaydi .logo-im{height:clamp(58px,6.6vw,76px)}
+.ust,.logo-im{transition:none}                     /* height geçişi kaldırıldı */
+.logo-im{transform-origin:left center;
+  transition:transform .25s cubic-bezier(.2,.7,.3,1)}
+body.kaydi .logo-im{transform:scale(.86)}          /* layout'suz küçülme */
+body.kaydi .ust-kap{box-shadow:0 6px 24px rgba(16,20,26,.12)}
+@media (max-width:1120px){body.kaydi .ust{--ust-h:92px} body.kaydi .logo-im{height:66px}}
+@media (max-width:860px){body.kaydi .ust{--ust-h:86px} body.kaydi .logo-im{height:66px}}
+@media (max-width:400px){body.kaydi .ust{--ust-h:78px} body.kaydi .logo-im{height:58px}}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   ALT BİLGİ — yeniden (2026-09-01, kullanıcı: "kutu içinde gibi olmasın,
+   tam sayfaya yayılsın, daha kurumsal olsun, siyah olmasın")
+   Koyu yuvarlak kart kaldırıldı: açık zemin, tam genişlik, koyu metin.
+   ⚠️ Logo artık KOYU varyant (açık zeminde beyaz varyant görünmez).
+   ═══════════════════════════════════════════════════════════════════════════ */
+.alt{background:#eef1f5; padding:0; border-top:3px solid var(--tur); color:var(--ink-2)}
+.alt>.kap{background:none; border:0; border-radius:0; box-shadow:none;
+  padding:clamp(34px,4vw,54px) 0 22px; width:min(100% - 34px,var(--kap))}
+.alt>.kap::before{display:none}
+.alt h3{color:var(--koyu); font-size:.92rem; letter-spacing:.01em;
+  text-transform:uppercase; margin-bottom:15px}
+.alt h3::after{background:var(--tur); width:22px}
+.alt-marka p{color:var(--ink-2); font-size:.93rem}
+.alt-ust{border-bottom:1px solid #dde2e9}
+.alt a:not(.dg):not(.logo-bag):not(.w4-ad){color:#48525f}
+.alt a:not(.dg):not(.logo-bag):not(.w4-ad):hover{color:var(--tur-koyu)}
+.alt .adres{color:var(--ink-2)}
+.alt-saat strong{color:var(--tur-koyu)}
+.alt-saat span{color:var(--ink-3)}
+.alt-ilceler{border-bottom:1px solid #dde2e9}
+.ilce-agi{color:var(--ink-3)}
+.ilce-agi a:hover{color:var(--tur-koyu)}
+.alt-son{color:var(--ink-3); border-top:0}
+.alt-tumu a{color:var(--tur-koyu) !important}
+/* Tanıtım PDF rozeti açık zemine göre */
+.alt .alt-pdf-bag{background:#fff; border:1px solid #dde2e9; color:#48525f}
+.alt .alt-pdf-bag:hover{background:#fff; border-color:var(--tur); color:var(--tur-koyu)}
+
+/* ⚠️ Web4Medya imzası açık zemine taşındı: --w4-mavi (#4d90ff) koyu zemin içindi,
+   açık zeminde okunmuyor → markanın kendi mavisi #0B57D0 kullanılıyor.
+   Bağlantı yine YALNIZCA marka adını sarıyor. */
+.alt .w4-bag{background:#fff; border:1px solid #dde2e9}
+.alt .w4-bag::before{background:linear-gradient(90deg,transparent,rgba(0,0,0,.08),transparent)}
+.alt .w4-etiket{color:var(--ink-3)}
+.alt .w4-ad{color:var(--koyu)}
+.alt .w4-d{color:#0b57d0; text-shadow:none}
+.alt .w4-ad::after{background:#0b57d0}
+.alt .w4-ad:hover{color:var(--koyu)}
+.alt .w4-bag:has(.w4-ad:hover){border-color:rgba(11,87,208,.4)}
+
+@media (max-width:860px){
+  .alt{padding:0 0 88px}
+  .alt>.kap{width:min(100% - 30px,var(--kap)); padding:28px 0 18px; border-top:0}
+}
+
+/* ⚠️ Titreşim düzeltmesindeki `body.kaydi .logo-im` kuralları ÜST BAR için;
+   aynı özgüllükte oldukları için ALT BİLGİ logosunu da küçültüyorlardı
+   (208px yerine 65px render oluyordu — scale(.86) + height ezmesi).
+   Alt bilgi logosu kaydırma durumundan bağımsız. */
+.alt .logo-im,body.kaydi .alt .logo-im{height:208px; transform:none; max-width:100%}
+@media (max-width:860px){
+  .alt .logo-im,body.kaydi .alt .logo-im{height:150px}
+}
+@media (max-width:400px){
+  .alt .logo-im,body.kaydi .alt .logo-im{height:120px}
+}
+
+/* Sosyal hesap bağlantıları (alt bilgi) */
+.alt-sosyal{display:flex; flex-wrap:wrap; gap:9px; margin-top:16px}
+.sos{display:inline-flex; align-items:center; gap:8px; padding:9px 15px; border-radius:999px;
+  background:#fff; border:1px solid #dde2e9; text-decoration:none;
+  font-size:.86rem; font-weight:700; color:#48525f !important;
+  transition:transform .2s, border-color .2s, color .2s, box-shadow .2s}
+.sos:hover{transform:translateY(-2px); border-color:transparent; color:#fff !important;
+  box-shadow:0 6px 18px rgba(0,0,0,.16)}
+.sos-instagram:hover{background:linear-gradient(45deg,#f09433,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888)}
+
+/* ⚠️ GÖRSELLER KESİK GÖRÜNÜYORDU (kullanıcı bildirdi):
+   "Ekranı kaplamasın" düzeltmesinde vitrine sabit `aspect-ratio:16/10` +
+   `object-fit:cover` verilmişti; bu, oranı farklı görselleri (kaynaklar 0,67:1 ile
+   1,87:1 arasında) kırpıyordu.
+   Yeni kural: KUTU GÖRSELE GÖRE ŞEKİLLENİR — görselin tamamı görünür (kırpma yok),
+   yükseklik sınırlı olduğu için de ekranı kaplamaz. Portre görsel dar ve yüksek,
+   yatay görsel geniş ve alçak çıkar. */
+.vitrin{display:block; width:fit-content; max-width:100%; margin-inline:auto;
+  aspect-ratio:auto}
+.vitrin picture{display:block; width:auto; height:auto}
+.vitrin img{display:block; width:auto; height:auto;
+  max-width:100%; max-height:min(62vh,540px); object-fit:fill}
+.hero-gorsel .vitrin{aspect-ratio:auto}
+.metin .vitrin{max-width:100%}
+@media (max-width:620px){
+  .vitrin{aspect-ratio:auto}
+  .vitrin img{max-height:min(58vh,420px)}
+}
+/* PDF kapağı da tam görünsün */
+.pdf-ac img{max-height:none; object-fit:fill; width:100%; height:auto}
+
+/* ── Tanıtım videosu ──────────────────────────────────────────────────────
+   ⚠️ preload="none" olduğu için ilk yükte yalnız poster iniyor. */
+.video-kutu{max-width:900px; margin-inline:auto; border-radius:var(--r);
+  overflow:hidden; background:var(--koyu); box-shadow:var(--golge)}
+.video-kutu video{display:block; width:100%; height:auto; aspect-ratio:16/9;
+  background:var(--koyu)}
+.video-not{text-align:center; margin:20px auto 0; max-width:62ch; color:var(--ink-2);
+  font-size:1.01rem; line-height:1.75}
+.video-not strong{color:var(--koyu)}
+.video-dg{justify-content:center; margin-top:18px}
+@media (max-width:620px){.video-kutu{border-radius:12px}}
+
+/* ════════════════════════════════════════════════════════════════════════
+   arslankayainsaat.com ekleri — dehaiskele tabanının üstüne
+   ════════════════════════════════════════════════════════════════════════ */
+:root{--altin:#e0a526}
+
+/* Logo 4,17:1 yatay — 44px altında "İNŞAAT" satırı okunmuyor. */
+.logo-im{height:clamp(44px,4.6vw,54px)}
+.alt .logo-im{height:auto; width:min(300px,100%)}
+
+/* Görselsiz hero: lacivert zemin + ince plan (blueprint) ızgarası + sağda bina silüeti */
+.hero-desen{position:relative; overflow:hidden; color:#fff;
+  background:
+    radial-gradient(1100px 520px at 85% 110%,rgba(239,90,10,.30),transparent 60%),
+    radial-gradient(700px 400px at 0% 0%,rgba(224,165,38,.10),transparent 60%),
+    linear-gradient(135deg,#111319 0%,var(--koyu) 55%,#23262f 100%)}
+.hero-desen::before{content:""; position:absolute; inset:0; pointer-events:none; opacity:.55;
+  background-image:
+    linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px),
+    linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+  background-size:96px 96px,96px 96px,24px 24px,24px 24px;
+  -webkit-mask-image:linear-gradient(100deg,transparent 15%,#000 70%);
+  mask-image:linear-gradient(100deg,transparent 15%,#000 70%)}
+.hero-desen::after{content:""; position:absolute; inset:auto -2% 0 auto; right:-2%; bottom:0; top:auto; left:auto; height:auto; z-index:1; -webkit-mask-image:none; mask-image:none; width:min(560px,48vw);
+  aspect-ratio:1.3; pointer-events:none; opacity:.16;
+  background:url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 260 200' fill='none' stroke='%23fff' stroke-width='1.6'%3E%3Cpath d='M10 200V90h50v110M60 200V50h60v150M120 200V110h45v90M165 200V70h55v130M220 200V120h30v80'/%3E%3Cpath d='M20 105h30M20 125h30M20 145h30M20 165h30M70 65h40M70 85h40M70 105h40M70 125h40M70 145h40M70 165h40M130 125h25M130 145h25M130 165h25M175 85h35M175 105h35M175 125h35M175 145h35M175 165h35'/%3E%3Cpath d='M150 70V10h4v60M154 14h80M154 14l20 18M234 14v26'/%3E%3C/svg%3E") no-repeat right bottom/contain}
+.hero-desen .hero-metin{position:relative; z-index:2}
+.hero-desen h1,.hero-desen .hero-slogan{color:#fff}
+.hero-desen .hero-alt{color:#d2d9e4}
+.hero-desen .hero-ust{display:inline-flex; align-items:center; gap:9px; padding:6px 15px;
+  border-radius:999px; background:rgba(239,90,10,.22); border:1px solid rgba(251,138,26,.5);
+  color:#ffc08a; margin-bottom:20px; font-size:.8rem; font-weight:700; letter-spacing:.14em;
+  text-transform:uppercase}
+.hero-desen.hero-ic{padding:clamp(48px,7vw,86px) 0 clamp(44px,6vw,72px)}
+.hero-desen.hero-ic h1{font-size:clamp(1.9rem,4.4vw,3rem)}
+.hero-desen .hero-cip li{color:#e8ecf2}
+
+/* Güven şeridi 4 madde */
+.serit ul{grid-template-columns:repeat(4,1fr)}
+@media (max-width:1000px){.serit ul{grid-template-columns:1fr 1fr}}
+@media (max-width:620px){.serit ul{grid-template-columns:1fr}}
+
+/* Kartlarda görsel yerine ikon dairesi */
+.kart-ikon{display:flex; align-items:center; justify-content:center; width:112px;
+  margin-bottom:-56px; color:#fff;
+  background:linear-gradient(150deg,var(--tur-2),var(--tur) 55%,var(--tur-koyu))}
+.izgara-kart .kart-ic{padding-top:72px}
+.izgara-kart .kart:hover .kart-ikon{background:linear-gradient(150deg,var(--koyu-3),var(--koyu))}
+
+/* Bölünmüş bölüm: çalışma alanı kutuları */
+.urun-ikon{display:flex; gap:12px; align-items:center; padding:14px}
+.urun-ikon .urun-ic{padding:0}
+.urun-ik{flex:none; width:50px; height:50px; border-radius:12px; display:flex;
+  align-items:center; justify-content:center; background:rgba(255,255,255,.18)}
+.bl-sag{background:var(--koyu)}
+
+/* Süreç adımları */
+.izgara-4{display:grid; grid-template-columns:repeat(4,1fr); gap:16px}
+@media (max-width:1000px){.izgara-4{grid-template-columns:1fr 1fr}}
+@media (max-width:560px){.izgara-4{grid-template-columns:1fr}}
+.adim{position:relative; padding-top:26px}
+.adim-no{display:inline-flex; width:38px; height:38px; border-radius:50%; align-items:center;
+  justify-content:center; font-weight:800; color:#fff; margin-bottom:12px;
+  background:linear-gradient(178deg,var(--tur-2),var(--tur)); box-shadow:0 2px 0 var(--tur-koyu)}
+
+/* Çalışma alanı kartları + iletişim kartları */
+.alan-kart{display:block; text-decoration:none; color:inherit;
+  transition:transform .25s cubic-bezier(.2,.7,.3,1), box-shadow .25s}
+.alan-kart:hover{transform:translateY(-4px); box-shadow:var(--golge)}
+.alan-ik{display:inline-flex; width:58px; height:58px; border-radius:14px; align-items:center;
+  justify-content:center; color:var(--tur); background:rgba(239,90,10,.09); margin-bottom:12px}
+.kisi-kart{display:flex; flex-direction:column; gap:10px; align-items:flex-start}
+.kisi-kart h3{margin:0}
+.kisi-rol{color:var(--ink-3); margin:0; font-size:.9rem}
+.kisi-kart .dg{margin-top:auto}
+.alt-kisi{font-size:.8rem; color:#8d97a8}
