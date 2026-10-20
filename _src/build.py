@@ -86,6 +86,39 @@ IKON = {
 def ikon(ad, boy=36):
     return svg(IKON[ad], boy)
 
+# ── Görseller ───────────────────────────────────────────────────────────────
+GENISLIKLER = (500, 900, 1600)
+def gorsel(taban, alt, boy="100vw", oncelik=False):
+    """_src/media.py türevlerinden srcset'li <picture>. Türev yoksa BOŞ döner."""
+    kaynak = [(g, f"/images/w{g}/{taban}.webp") for g in GENISLIKLER
+              if os.path.exists(os.path.join(KOK, "images", f"w{g}", taban + ".webp"))]
+    if not kaynak:
+        return ""
+    from PIL import Image
+    with Image.open(os.path.join(KOK, kaynak[-1][1].lstrip("/"))) as im:
+        w, h = im.size
+    yukle = ' loading="eager" fetchpriority="high"' if oncelik else ' loading="lazy" decoding="async"'
+    return (f'<picture><img src="{kaynak[-1][1]}" srcset="{", ".join(f"{y} {g}w" for g, y in kaynak)}" '
+            f'sizes="{boy}" alt="{e(alt)}" width="{w}" height="{h}"{yukle}></picture>')
+
+AFIS_ALT = ("Arslankaya İnşaat tanıtım görseli: anahtar teslim inşaat hizmetleri, çalışma "
+            "alanları, Celal Arslankaya ve Kurtuluş Arslankaya telefonları, Bartın Merkez adresi")
+
+def afis_bolum(baslik="Hizmetlerimiz Bir Bakışta", giris=None):
+    """Kullanıcının 2026-10-20'de verdiği tanıtım afişi (img/arslankaya-insaat-hizmet.webp).
+    ⚠️ KIRPMA YOK ve üstüne yazı/perde BİNMEZ: afişin alt şeridinde telefon ve adres var,
+       dehaiskele'deki .vitrin-ara bindirmesi onu örtüyordu → arama düğmesi görselin ALTINDA.
+    ⚠️ Afişteki metin görselde; aynı bilgiler sayfada HTML olarak da var (SEO değeri orada)."""
+    g = gorsel("arslankaya-insaat-hizmet", AFIS_ALT, boy="(min-width:1220px) 1180px, 100vw")
+    if not g:
+        return ""
+    gr = f'<p class="giris">{e(giris)}</p>' if giris else ""
+    return f"""<section class="bol afis"><div class="kap">
+  <div class="bol-bas"><h2>{e(baslik)}</h2>{gr}</div>
+  <a class="afis-kutu" href="tel:{S['tel_link']}" aria-label="{e(S['marka'])} — hemen ara: {e(S['tel'])}">{g}</a>
+  <div class="dg-grup afis-dg">{tel_btn()}{tel2_btn("dg dg-hat2")}{wa_btn()}</div>
+</div></section>"""
+
 # ── Marka ───────────────────────────────────────────────────────────────────
 def logo(koyu_zemin=False, buyuk=False):
     """Gerçek logo (img/arslankaya-insaat-logo.png → _src/logo.py türevleri).
@@ -123,6 +156,11 @@ def head(baslik, aciklama, yol, schema=""):
 <meta property="og:description" content="{e(ac)}">
 <meta property="og:url" content="{e(kanonik)}">
 <meta property="og:locale" content="tr_TR">
+<meta property="og:image" content="{ALAN}/images/og-arslankaya-insaat.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="675">
+<meta property="og:image:alt" content="{e(S['marka'])} tanıtım görseli">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#171a22">
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" type="image/png" href="/images/favicon-48.png" sizes="48x48">
@@ -265,6 +303,9 @@ def isletme_semasi():
         "url": ALAN + "/",
         "telephone": [S["tel_link"], S["tel2_link"]],
         "description": S["aciklama"],
+        "image": ALAN + "/images/og-arslankaya-insaat.jpg",
+        "logo": ALAN + "/images/logo/arslankaya-logo-720.webp",
+        "slogan": "Güvenle İnşa Ediyoruz",
         "address": {"@type": "PostalAddress", "streetAddress": S["adres_sokak"],
                     "addressLocality": S["adres_ilce"], "addressRegion": S["adres_il"],
                     "postalCode": S["adres_pk"], "addressCountry": "TR"},
@@ -411,7 +452,7 @@ def anasayfa():
   <div class="kap hero-metin">
     <p class="hero-ust">Bartın İnşaat Firması</p>
     {hero_h1(["Bartın İnşaat Firması - Arslankaya İnşaat"])}
-    <p class="hero-slogan">Temelden çatıya, keşiften teslime aynı ekip.</p>
+    <p class="hero-slogan">“Güvenle İnşa Ediyoruz.”</p>
     <p class="hero-alt">Kaba ve ince inşaat, tadilat, çatı, mantolama ve anahtar teslim
        yenileme. Önce yerinde görüyoruz, işi kalem kalem yazıyoruz, sonra fiyat konuşuyoruz.</p>
     <div class="dg-grup">{tel_btn()}{teklif_btn("dg dg-cerceve")}</div>
@@ -421,6 +462,7 @@ def anasayfa():
 </section>
 {guven_seridi()}
 {hizmet_kartlari("Hizmetlerimiz", giris="Anahtar teslim inşaatın her aşamasını kendi ekibimizle yapıyoruz.")}
+{afis_bolum(giris="Temelden çatıya bütün hizmetlerimiz ve çalışma alanlarımız tek görselde.")}
 {bolunmus_bolum()}
 {surec_bolum()}
 {sss_bolum(D.ANA_SSS)}
@@ -474,6 +516,7 @@ def hizmetler_sayfasi():
 {kirinti([("Ana Sayfa", "/"), ("Hizmetlerimiz", None)])}
 {hero_ic("Anahtar Teslim İnşaat", ["Hizmetlerimiz"], "Temelden çatıya bir binanın bütün aşamaları — ister tamamını, ister tek bir kalemini verin.")}
 {hizmet_kartlari("13 Hizmet Kalemi")}
+{afis_bolum("Tüm Hizmetlerimiz Tek Görselde")}
 {cta_band("Hangi hizmet size uygun?", "Emin değilseniz işi anlatmanız yeterli; doğru kalemi birlikte belirleyelim.")}
 </main>
 {alt_bilgi()}"""
@@ -542,6 +585,7 @@ def hakkimizda_sayfasi():
   <h2>Kimlerle Çalışıyoruz?</h2>
   <ul class="ok-liste">{"".join(f'<li><a href="/{a["slug"]}/">{e(a["ad"])}</a></li>' for a in D.ALANLAR)}</ul>
 </div></section>
+{afis_bolum("Arslankaya İnşaat Tanıtım")}
 {iletisim_kartlari()}
 {cta_band("Tanışalım", "İşinizi anlatın; yerinde keşif için uygun günü birlikte belirleyelim.")}
 </main>
