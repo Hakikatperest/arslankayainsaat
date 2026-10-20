@@ -501,3 +501,36 @@ ANA_SSS = [
      "Evet. Kaba inşaat, kalıp-demir, duvar-sıva, mantolama gibi kalemleri tek tek ya da "
      "birlikte alabiliyoruz."),
 ]
+
+# ── Hizmet görselleri (kullanıcı 2026-10-20 img/'e yükledi) ─────────────────
+# slug → (img/ kaynak adı, alt metin, kart kırpım odağı (x, y) 0..1)
+# ⚠️ Alt metin görselin GÖSTERDİĞİNİ anlatır, dosya adını değil; kelime doldurma yok.
+# ⚠️ Yayın adı `bartin-<slug>` (kaynak "montalama" yazım hatası yayına taşınmıyor).
+HIZMET_GORSEL = {
+    "temelden-catiya-insaat": ("temelden-catiya-insaat",
+        "Gün batımında kule vinçli şantiyede yükselen betonarme konut inşaatı ve çalışan ekip", (.5, .5)),
+    "kaba-insaat": ("kaba-insaat",
+        "Kalıpları ve kolon filizleri duran, tuğla duvarları örülmüş üç katlı betonarme kaba inşaat", (.5, .5)),
+    "ince-insaat": ("ince-insaat",
+        "Duvara mala ile sıva çeken ustanın elleri", (.45, .5)),
+    "tadilat-tamirat": ("tadilat-ve-tamirat",
+        "Alet kemerli ustanın tezgâh üzerinde şerit metre ve aletlerle ölçü alması", (.5, .45)),
+    "cati-izolasyon": ("cati-ve-izolasyon",
+        "Çatı çıtaları üzerine kırmızı kiremit kaplama döşeyen iki usta", (.55, .45)),
+    "boya-badana-alci": ("boya-badana",
+        "Baretli ustanın rulo ile beyaz duvarı sarıya boyaması", (.42, .5)),
+    "seramik-fayans": ("seramik-ve-fayans",
+        "Gri büyük ebatlı zemin seramiği üzerinde üç farklı tonda seramik numunesi", (.5, .5)),
+    "ic-dis-cephe": ("ic-ve-dis-cephe",
+        "İskele üzerinde dış cepheye levha uygulayan reflektif yelekli, baretli usta", (.55, .45)),
+    "mantolama-yalitim": ("montalama-ve-yalitim",
+        "Dış cepheye dübelli ısı yalıtım levhası yerleştiren usta", (.62, .5)),
+    "beton-kalip-demir": ("beton-kalip-demir",
+        "Kolon demir donatısını bağlayan baretli ve yelekli işçi", (.4, .45)),
+    "duvar-siva": ("duvar-ve-siva-isleri",
+        "Duvarda mala ile perdah sıva yapan ustanın eli", (.45, .5)),
+    "yikim-yenileme": ("yikim-ve-yenileme-isleri",
+        "Ekskavatör kepçesiyle yıkılan eski betonarme bina", (.45, .5)),
+    "anahtar-teslim-yenileme": ("anahtar-teslim-yenileme",
+        "Anahtar demeti yanında duran iki katlı ev maketi", (.5, .5)),
+}

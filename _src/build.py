@@ -14,6 +14,7 @@ from urllib.parse import quote
 KOK = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import data as D
+import icerik as I
 
 S = D.SITE
 ALAN = S["alan"]
@@ -313,8 +314,8 @@ def alt_bilgi():
   </div>
 </footer>
 <nav class="sabit-ara" aria-label="Hızlı iletişim">
-  <a class="sa sa-tel" href="tel:{S['tel_link']}"><span class="sa-ik">{svg_tel()}</span><span class="sa-yz">Celal</span></a>
-  <a class="sa sa-tel" href="tel:{S['tel2_link']}"><span class="sa-ik">{svg_tel()}</span><span class="sa-yz">Kurtuluş</span></a>
+  <a class="sa sa-tel" href="tel:{S['tel_link']}"><span class="sa-ik">{svg_tel()}</span><span class="sa-yz">{e(S["tel_kisi"])}</span></a>
+  <a class="sa sa-tel" href="tel:{S['tel2_link']}"><span class="sa-ik">{svg_tel()}</span><span class="sa-yz">{e(S["tel2_kisi"])}</span></a>
   <a class="sa sa-wa" href="{wa_link()}" target="_blank" rel="noopener"><span class="sa-ik">{svg_wa()}</span><span class="sa-yz">WhatsApp</span></a>
 </nav>
 <script src="{surum('/assets/app.js')}" defer></script>
@@ -389,14 +390,39 @@ def guven_seridi():
     ic = "".join(f'<li><strong>{e(a)}</strong><span>{e(b)}</span></li>' for a, b in ogeler)
     return f'<section class="serit"><div class="kap"><ul>{ic}</ul></div>{dalga()}</section>'
 
+def kart_gorsel(slug):
+    """Yuvarlak kart görseli — _src/media.py'nin odaklı KARE kırpımı (240/480).
+    Görsel yoksa SVG ikona düşer."""
+    g = D.HIZMET_GORSEL.get(slug)
+    ad = f"bartin-{slug}"
+    if not g or not os.path.exists(os.path.join(KOK, "images", "kart", ad + "-240.webp")):
+        return None
+    return (f'<picture><img src="/images/kart/{ad}-240.webp" '
+            f'srcset="/images/kart/{ad}-240.webp 240w, /images/kart/{ad}-480.webp 480w" '
+            f'sizes="(min-width:1000px) 200px, 50vw" width="240" height="240" '
+            f'alt="{e(g[1])}" loading="lazy" decoding="async"></picture>')
+
+def hizmet_vitrin(h):
+    """Hizmet sayfası içi görsel — KIRPMASIZ, tamamı tel: bağlantısı (dehaiskele vitrini)."""
+    g = D.HIZMET_GORSEL.get(h["slug"])
+    if not g:
+        return ""
+    p = gorsel(f'bartin-{h["slug"]}', g[1], boy="(min-width:860px) 780px, calc(100vw - 32px)")
+    if not p:
+        return ""
+    return (f'<a class="vitrin" href="tel:{S["tel_link"]}" aria-label="{e(h["ad"])} için hemen ara: {e(S["tel"])}">'
+            f'{p}<span class="vitrin-ara">{svg_tel()}<span>Hemen arayın: {e(S["tel"])}</span></span></a>')
+
 def hizmet_kartlari(baslik="Hizmetlerimiz", haric=None, giris=None, liste=None):
     kart = []
     for h in (liste or D.HIZMETLER):
         if h["slug"] == haric:
             continue
+        kg = kart_gorsel(h["slug"])
+        daire = (f'<span class="kart-daire">{kg}</span>' if kg else
+                 f'<span class="kart-daire kart-ikon">{ikon(h["ikon"], 46)}</span>')
         kart.append(
-            f'<a class="kart gel" href="/{h["slug"]}/">'
-            f'<span class="kart-daire kart-ikon">{ikon(h["ikon"], 46)}</span>'
+            f'<a class="kart gel" href="/{h["slug"]}/">{daire}'
             f'<span class="kart-ic"><h3>{e(h["ad"])}</h3><p>{e(h["ozet"])}</p>'
             f'<span class="kart-ok">Detaylı Bilgi</span></span></a>')
     gr = f'<p class="giris">{e(giris)}</p>' if giris else ""
@@ -512,37 +538,72 @@ def anasayfa():
 </main>
 {alt_bilgi()}"""
 
+def metin(t):
+    """icerik.py biçim işaretleri: **kalın** ve [[slug|yazı]] iç bağlantı. Önce kaçışlanır."""
+    t = e(t)
+    t = re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", t)
+    return re.sub(r"\[\[([a-z0-9-]+)\|(.+?)\]\]", r'<a href="/\1/">\2</a>', t)
+
+def duz(t):
+    """Şema/meta için işaretsiz düz metin."""
+    return re.sub(r"\[\[[a-z0-9-]+\|(.+?)\]\]", r"\1", t.replace("**", ""))
+
+def kimlik(baslik):
+    k = kucuk(baslik)
+    for a, b in (("ç","c"),("ğ","g"),("ı","i"),("ö","o"),("ş","s"),("ü","u"),("â","a"),("î","i")):
+        k = k.replace(a, b)
+    return re.sub(r"[^a-z0-9]+", "-", k).strip("-")
+
+KUTU_SINIF = {"Tavsiyemiz": "kutu-tavsiye", "Dikkat": "kutu-dikkat", "Önemli": "kutu-onemli"}
+
 def hizmet_sayfasi(h):
     yol = f'/{h["slug"]}/'
+    ic = I.ICERIK[h["slug"]]
     baslik = f'Bartın {h["ad"]} | {S["marka"]}'
     aciklama = f'Bartın\'da {kucuk(h["ad"])}: {h["ozet"]} Yerinde keşif ve yazılı teklif: {S["tel"]}'
-    kapsam = "".join(f"<li>{e(k)}</li>" for k in h["kapsam"])
     # İlgili hizmetler: bu hizmeti içeren çalışma alanlarındaki diğer hizmetler
     ilgili = []
     for a in D.ALANLAR:
         if h["slug"] in a["hizmet"]:
-            ilgili += [s for s in a["hizmet"] if s != h["slug"] and s not in ilgili]
-    ilgili = [HIZ[s] for s in ilgili][:6] or [x for x in D.HIZMETLER if x is not h][:6]
+            ilgili += [x for x in a["hizmet"] if x != h["slug"] and x not in ilgili]
+    ilgili = [HIZ[x] for x in ilgili][:8] or [x for x in D.HIZMETLER if x is not h][:8]
     alanlar = [a for a in D.ALANLAR if h["slug"] in a["hizmet"]]
     alan_ln = ", ".join(f'<a href="/{a["slug"]}/">{e(kucuk(a["kisa"]))}</a>' for a in alanlar)
     alan_p = (f"<p>Bu hizmeti {alan_ln} müşterilerimize veriyoruz.</p>" if alanlar else "")
-    sema = isletme_semasi() + hizmet_semasi(h) + sss_semasi(h["sss"])
-    return head(baslik, aciklama, yol, sema) + ust_header("/hizmetlerimiz/") + f"""
+
+    giris = "".join(f"<p>{metin(p)}</p>" for p in ic["giris"])
+    govde, icindekiler = [], []
+    for b in ic["bolumler"]:
+        k = kimlik(b["h"])
+        icindekiler.append(f'<li><a href="#{k}">{e(b["h"])}</a></li>')
+        parca = [f'<h2 id="{k}">{e(b["h"])}</h2>']
+        parca += [f"<p>{metin(p)}</p>" for p in b.get("p", [])[:1]]
+        if b.get("liste"):
+            parca.append('<ul class="ok-liste">' +
+                         "".join(f"<li>{metin(x)}</li>" for x in b["liste"]) + "</ul>")
+        parca += [f"<p>{metin(p)}</p>" for p in b.get("p", [])[1:]]
+        parca += [f"<p>{metin(p)}</p>" for p in b.get("son", [])]
+        if b.get("kutu"):
+            tur, yazi = b["kutu"]
+            parca.append(f'<aside class="kutu {KUTU_SINIF.get(tur, "")}"><strong>{e(tur)}:</strong> '
+                         f'{metin(yazi)}</aside>')
+        govde.append("\n".join(parca))
+    ind = (f'<nav class="icindekiler" aria-label="Bu sayfada"><strong>Bu sayfada neler var?</strong>'
+           f'<ol>{"".join(icindekiler)}</ol></nav>')
+    sema = isletme_semasi() + hizmet_semasi(h) + sss_semasi(ic["sss"])
+    return head(baslik, aciklama, yol, sema) + ust_header() + f"""
 <main id="ana">
 {kirinti([("Ana Sayfa", "/"), ("Hizmetlerimiz", "/hizmetlerimiz/"), (h["ad"], None)])}
 {hero_ic("Bartın · " + S["marka"], ["Bartın " + h["ad"]], h["ozet"], kucuk(h["ad"]))}
 <section class="bol"><div class="kap dar metin">
-  <h2>{e(h["ad"])} Nedir, Neleri Kapsar?</h2>
-  <p>{e(h["giris"])}</p>
-  <ul class="ok-liste">{kapsam}</ul>
-  <h2>İşi Nasıl Yürütüyoruz?</h2>
-  <p>{e(h["surec"])}</p>
-  <h2>Bartın'da Dikkat Ettiğimiz Nokta</h2>
-  <p>{e(h["yerel"])}</p>
+  {giris}
+  {hizmet_vitrin(h)}
+  {ind}
+  {"".join(govde)}
   {alan_p}
 </div></section>
 {hizmet_kartlari("İlgili Hizmetler", liste=ilgili)}
-{sss_bolum(h["sss"], h["ad"] + " Hakkında Sık Sorulanlar")}
+{sss_bolum(ic["sss"], h["ad"] + " Hakkında Sık Sorulanlar")}
 {cta_band(h["ad"] + " için yerinde keşif", "İşi anlatın, uygun günü birlikte belirleyelim. Teklifi kalem kalem yazılı veriyoruz.", kucuk(h["ad"]))}
 </main>
 {alt_bilgi()}"""
